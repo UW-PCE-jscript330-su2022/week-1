@@ -1,4 +1,6 @@
-// dataInterface/items.js ///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// dataInterface/items.js //////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 const uuid = require('uuid');
 
@@ -10,19 +12,23 @@ module.exports.getAll = () => {
   return module.exports.items;
 }
 
-// Given [itemId], returns [item] with [id] of [itemId].
+// Given [itemId],
+// returns [item] with [id] of [itemId].
 module.exports.getById = (itemId) => {
   const gotById = module.exports.items.find(item => item.id === itemId);
   return gotById;
 }
 
-// Given [itemId], deletes [item] with [itemId].
+// Given [itemId], 
+// deletes the [item] from [items] with an [id] matching [itemId].
 module.exports.deleteById = async (itemId) => {
   const deletedIndex = module.exports.items.findIndex(item => item.id === itemId);
   module.exports.items.splice(deletedIndex, 1);
 }
 
-// 
+// Given [itemId] & [newObj],
+// updates the [item] in [items] with an [id] matching [itemId] with the field
+// of [newObj].
 module.exports.updateById = async (itemId, newObj) => {
   const updatedById = module.exports.items.find(item => item.id === itemId);
   if (updatedById) {
