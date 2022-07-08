@@ -9,6 +9,9 @@ router.get("/", (req, res, next) => {
 
 // curl http://localhost:5000/items/id#
 router.get("/:id", (req, res, next) => {
+
+  // Need to put logic in ./dataInterface/items.js getById() (similar to router.put() below)???
+  
   const answer = itemData.items.find(item => item.id == req.params.id);
   if (answer) {
     res.send(answer)
@@ -28,7 +31,7 @@ router.put("/:id", (req, res, next) => {
   let answerTwo = itemData.updateById(req.params.id, req.body);
   console.log(answerTwo);
   res.send(answerTwo);
-  
+
   // 1)
   // let id = +req.params.id;
   // let indexInItems = itemData.items.findIndex((item) => item.id === id);
