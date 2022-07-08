@@ -1,5 +1,9 @@
+// routes/items.js ////////////////////////////////////////////////////////////
+
 const { Router } = require("express");
 const router = Router();
+
+const msg404 = "404: Item not found.";
 
 const itemData = require('../dataInterface/items');
 
@@ -8,8 +12,12 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const gotItem = itemData.getById(req.params.id);
+  if (!gotItem) {
+    res.status(404).send(msg404);
+  } else {
+    res.status(200).send(gotItem);
+  }
 });
 
 router.post("/", (req, res, next) => {
