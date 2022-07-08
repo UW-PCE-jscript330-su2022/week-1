@@ -16,19 +16,18 @@ module.exports.getById = (itemId) => {
   return gotById;
 }
 
-// potentiallyEmptyValue = null;
-// fallbackValue = "swag";
-// console.log(potentiallyEmptyValue {{c1::||}} fallbackValue);
-// → "swag"
-
 // Given [itemId], deletes [item] with [itemId].
 module.exports.deleteById = async (itemId) => {
   const deletedIndex = module.exports.items.findIndex(itemId);
   module.exports.items.splice(deletedIndex, 1);
 }
 
+// 
 module.exports.updateById = async (itemId, newObj) => {
-    // TODO: complete writing this function
+  const updatedById = module.exports.items.find(item => item.id === itemId);
+  if (updatedById) {
+    updatedById.field = newObj.field;
+  }
 }
 
 module.exports.create = async (item) => {

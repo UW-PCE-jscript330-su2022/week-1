@@ -26,8 +26,9 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  itemData.updateById(req.params.id, req.body);
+  res.status(200).send();
+  // res.status(501).send({ error: 'route not yet implemented' });
 });
 
 
