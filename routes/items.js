@@ -9,12 +9,9 @@ router.get("/", (req, res, next) => {
 
 // curl http://localhost:5000/items/id#
 router.get("/:id", (req, res, next) => {
-
-  // Need to put logic in ./dataInterface/items.js getById() (similar to router.put() below)???
-  
-  const answer = itemData.items.find(item => item.id == req.params.id);
+  let answer = itemData.getById(req.params.id);
   if (answer) {
-    res.send(answer)
+    res.send(answer);
   } else{
     res.status(404).send({ error: `That id doesn't exist.` });
   }
@@ -28,24 +25,15 @@ router.post("/", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
   
-  let answerTwo = itemData.updateById(req.params.id, req.body);
-  console.log(answerTwo);
-  res.send(answerTwo);
+  let jsonBody = req.body.json()
+  let answerTwo = itemData.updateById(req.params.id, jsonBody);
+  // console.log(jsonBody);
 
-  // 1)
-  // let id = +req.params.id;
-  // let indexInItems = itemData.items.findIndex((item) => item.id === id);
-  
-  // 2)
-  // let indexInItems = itemData.items.find((item) => item.id == req.params.id);
-  
-  // let body = req.body;
-  // if (indexInItems >= 0) {
-    // let updatedItem = { id:id, ...body };
-    // itemData[indexInItems] = updatedItem;
-  // } else {
-  // res.status(404).send({ error: `That id doesn't exist` });
-  // }
+  if (answerTwo) {
+    res.send(answerTwo);
+  } else {
+    res.status(404).send({ error: `That id doesn't exist.` })
+  }
 });
 
 

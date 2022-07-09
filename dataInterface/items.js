@@ -11,8 +11,8 @@ module.exports.getAll = () => {
 }
 
 module.exports.getById = (itemId) => {
-  // const item = items.find(element => element[itemId] == req.params.id);
-  return module.exports.item[id];
+  let indexInItemsgetById = module.exports.items.find((item) => item.id == itemId);
+  return indexInItemsgetById;
 }
 
 module.exports.deleteById = async (itemId) => {
@@ -20,17 +20,18 @@ module.exports.deleteById = async (itemId) => {
 }
 
 module.exports.updateById = (itemId, newObj) => {
-    // TODO: complete writing this function
-    let indexInItems = module.exports.items.findIndex((item) => item.id == itemId);
-    console.log(indexInItems);
-    if (indexInItems >= 0) {
-      module.exports.items[indexInItems].field = newObj;
-      console.log(module.exports.items[indexInItems])
-    } 
-    return module.exports.items[indexInItems];
-    // console.log(indexInItems);
+  // TODO: complete writing this function
+
+  let indexInItemsUpdateByID = module.exports.items.findIndex((item) => item.id == itemId);
+  // console.log(indexInItemsUpdateByID);
+  if (indexInItemsUpdateByID >= 0) {
+    module.exports.items[indexInItemsUpdateByID].field = newObj;
+    // console.log(module.exports.items[indexInItemsUpdateByID])
+  } 
+  return module.exports.items[indexInItemsUpdateByID];
+  // console.log(indexInItemsUpdateByID);
 }
-exampleexample
+
 module.exports.create = async (item) => {
   const id = uuid.v4();
   const newItem = { ...item, id };
