@@ -81,6 +81,10 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(1);
       expect(itemData.items).toEqual([items[0]]);
     });
+    it("should return 404 if item does not exist", async () => {
+      const res = await request(server).get("/items/other");
+      expect(res.statusCode).toEqual(404);
+    });
   });
 
 
