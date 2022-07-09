@@ -40,6 +40,11 @@ describe("/items", () => {
       expect(typeof itemData.items[2].id).toEqual('string');
       expect(itemData.items[2].id).toHaveLength(36);
     });
+    it("Post request field not empty", async () =>{
+      const item = { field: '', id: 'new' };
+      const res = await request(server).post("/items/").send(item)
+      expect(res.statusCode).toEqual(400)
+    })
   });
 
   describe("PUT /", () => {
@@ -66,6 +71,11 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(2);
       expect(itemData.items).toEqual(items);
     });
+    it("Field must not be empty", async () =>{
+      const item = { field: '', id: 'new' };
+      const res = await request(server).put("/items/test1").send(item)
+      expect(res.statusCode).toEqual(400)
+    })
   });
 
   describe("DELETE /:id", () => {
@@ -81,6 +91,10 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(1);
       expect(itemData.items).toEqual([items[0]]);
     });
+    it("Should send 404 status if ID doesn't exist", async () => {
+      const res = await request(server).delete('/items/:id');
+      expect(res.statusCode).toEqual(404)
+    })
   });
 
 
