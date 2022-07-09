@@ -20,16 +20,19 @@ module.exports.deleteById = async (itemId) => {
 }
 
 module.exports.updateById = (itemId, newObj) => {
-  // TODO: complete writing this function
-
   let indexInItemsUpdateByID = module.exports.items.findIndex((item) => item.id == itemId);
-  // console.log(indexInItemsUpdateByID);
   if (indexInItemsUpdateByID >= 0) {
-    module.exports.items[indexInItemsUpdateByID].field = newObj;
-    // console.log(module.exports.items[indexInItemsUpdateByID])
-  } 
-  return module.exports.items[indexInItemsUpdateByID];
-  // console.log(indexInItemsUpdateByID);
+    let jsonString = JSON.stringify(newObj);
+    let jsonObj = JSON.parse(jsonString);
+    // console.log(`jsonObj: ${jsonObj.field}`);
+    // console.log(`indexInItemsUpdateById: ${indexInItemsUpdateByID}`);
+    module.exports.items[indexInItemsUpdateByID].field = jsonObj.field;
+    // console.log(`module.exports.items[indexInItemsUpdateByID]: ${JSON.stringify(module.exports.items[indexInItemsUpdateByID])}`)
+    // console.log(`indexInItemsUpdateByID: ${indexInItemsUpdateByID}`);
+    return JSON.stringify(module.exports.items[indexInItemsUpdateByID]);
+  } else {
+
+  }
 }
 
 module.exports.create = async (item) => {

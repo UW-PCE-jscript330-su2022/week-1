@@ -23,16 +23,15 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  
-  let jsonBody = req.body.json()
-  let answerTwo = itemData.updateById(req.params.id, jsonBody);
-  // console.log(jsonBody);
-
+  let bodyOfReq = req.body;
+  console.log(`bodyOfReq: ${bodyOfReq}`);
+  // console.log(`bodyofReq variable: ${bodyofReq}`)
+  let answerTwo = itemData.updateById(req.params.id, bodyOfReq);
+  console.log(`answerTwo: ${answerTwo}`);
   if (answerTwo) {
-    res.send(answerTwo);
+    res.status(200).send(answerTwo);
   } else {
-    res.status(404).send({ error: `That id doesn't exist.` })
+    res.status(200).send({ error: `That id doesn't exist.` })
   }
 });
 
