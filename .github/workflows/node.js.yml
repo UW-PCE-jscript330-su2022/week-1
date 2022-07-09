@@ -7,7 +7,7 @@ on:
   push:
     branches: [ Carlos ]
   pull_request:
-    branches: [ Carlos ]
+    branches: [ main ]
 
 jobs:
   test:
