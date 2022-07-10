@@ -26,7 +26,6 @@ router.post("/", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   let bodyOfReq = req.body;
   console.log(`bodyOfReq: ${bodyOfReq}`);
-  // console.log(`bodyofReq variable: ${bodyofReq}`)
   let answerTwo = itemData.updateById(req.params.id, bodyOfReq);
   console.log(`answerTwo: ${answerTwo}`);
   if (answerTwo) {
