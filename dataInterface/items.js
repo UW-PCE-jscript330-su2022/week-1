@@ -11,12 +11,16 @@ module.exports.getAll = () => {
 }
 
 module.exports.getById = (itemId) => {
-  let indexInItemsgetById = module.exports.items.find((item) => item.id == itemId);
-  return indexInItemsgetById;
+  let indexInItemsGetById = module.exports.items.find((item) => item.id == itemId);
+  return indexInItemsGetById;
 }
 
 module.exports.deleteById = async (itemId) => {
-    // TODO: complete writing this function
+  let indexInItemsDeleteById = module.exports.items.findIndex((item) => item.id == itemId);
+  // console.log(indexInItemsDeleteById);
+  module.exports.items.splice(indexInItemsDeleteById, 1);
+  // console.log(module.exports.items);
+  return true;
 }
 
 module.exports.updateById = (itemId, newObj) => {
