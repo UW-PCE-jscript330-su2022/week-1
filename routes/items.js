@@ -8,7 +8,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
+
   const theItem = itemData.getById(req.params.id)
   if (theItem){
     res.json(theItem)
@@ -23,7 +23,6 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
 
   const { id, field } = req.body
   const updatedItem = {
@@ -40,9 +39,9 @@ router.put("/:id", (req, res, next) => {
 
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", async(req, res, next) => {
 
-  const myData = itemData.deleteById(req.params.id)
+  const myData = await itemData.deleteById(req.params.id)
 
   if (myData){
     res.sendStatus(200)
