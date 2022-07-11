@@ -9,7 +9,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
-  const theItem = itemData.items.find(item => item.id === req.params.id)
+  const theItem = itemData.getById(req.params.id)
   if (theItem){
     res.json(theItem)
   } else{
@@ -25,13 +25,17 @@ router.post("/", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
 
-  const { field } = req.body
-  const theItem = itemData.items.find(item => item.id === req.params.id)
+  const { id, field } = req.body
+  const updatedItem = {
+    id: id,
+    field: field
+  }
+  const theItem = itemData.updateById(req.params.id, updatedItem)
   console.log(theItem)
   if (!theItem){
     res.status(501).send({ error: 'route not yet implemented' });
   } else{
-    theItem.field=field
+    //theItem.field=field
     res.status(200).json(theItem)
   }
 
@@ -41,16 +45,15 @@ router.put("/:id", (req, res, next) => {
 router.delete("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
 
-  const theItemIndex = itemData.items.findIndex(item => item.id === req.params.id)
+  const theItemIndex = itemData.deleteById(req.params.id)
   console.log(theItemIndex)
 
   //res.status(501).send({ error: 'route not yet implemented' });
 
-  if (typeof itemData.items[theItemIndex]==='undefined'){
+  if (theItemIndex === -1){
     res.status(501).send({ error: 'route not yet implemented' });
   } else{
-    itemData.items.splice(theItemIndex,1)
-    console.log(itemData.items)
+
     res.sendStatus(200)
   }
 
