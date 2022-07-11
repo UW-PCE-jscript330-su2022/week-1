@@ -16,19 +16,21 @@ module.exports.getById = (itemId) => {
 
 module.exports.deleteById = async (itemId) => {
     // TODO: complete writing this function
-    const index = moduel.exports.item.findIndex(item => item.id == itemId);
-     found = module.exports.items.splice(index, 1);
+    const index = module.exports.items.findIndex(item => item.id == itemId);
+    if (index > -1) {
+      module.exports.items.splice(index, 1);
+    }
 }
 
 module.exports.updateById = async (itemId, newObj) => {
     // TODO: complete writing this function
-    const index = moduel.exports.item.findIndex(item => item.id == itemId);
-    found = module.exports.items.splice(index, 1, newObj);
+    const objIndex = module.exports.items.findIndex(item => item.id == itemId);
+    module.exports.items[objIndex].field = newObj.field;
 }
 
 module.exports.create = async (item) => {
-  const newid = uuid.v4();
-  const newItem = { ...item, {id: newid, field: 'field ' + newid }};
+  const id = uuid.v4();
+  const newItem = { ...item, id };
   module.exports.items.push(newItem);
   return newItem;
 }

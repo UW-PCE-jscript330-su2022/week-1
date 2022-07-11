@@ -10,7 +10,12 @@ router.get("/", (req, res, next) => {
 router.get("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
   // res.status(501).send({ error: 'route not yet implemented' });
-  res.status(200).send(itemData.getById(req.params.id));
+  const found = itemData.getById(req.params.id);
+  if (found) {
+    res.status(200).send(found);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 router.post("/", (req, res, next) => {
@@ -21,14 +26,23 @@ router.post("/", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
   // res.status(501).send({ error: 'route not yet implemented' });
-  res.status(200).send(itemData.updateById(req.params.id))
+  const found = itemData.getById(req.params.id);
+  if (found) {
+    itemData.updateById(req.params.id, req.body);
+  };
+  res.sendStatus(200);
 });
 
 
 router.delete("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
   // res.status(501).send({ error: 'route not yet implemented' });
-  res.status(200).send(itemData.deleteById(req.params.id));
+  const found = itemData.getById(req.params.id);
+console.log(found);
+  if (found) {
+    itemData.deleteById(req.params.id);
+  }
+  res.sendStatus(200);
 });
 
 module.exports = router;
