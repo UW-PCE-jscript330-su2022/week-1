@@ -13,7 +13,7 @@ router.get("/:id", (req, res, next) => {
   if (theItem){
     res.json(theItem)
   } else{
-    res.status(501).send({ error: 'route not yet implemented' });
+    res.status(404).send({ error: 'not found' });
   }
 });
 
@@ -31,9 +31,9 @@ router.put("/:id", (req, res, next) => {
     field: field
   }
   const theItem = itemData.updateById(req.params.id, updatedItem)
-  console.log(theItem)
+  //console.log(theItem)
   if (!theItem){
-    res.status(501).send({ error: 'route not yet implemented' });
+    res.status(200).send({ error: 'item not found but sending a 200 to indicate no action taken' });
   } else{
     //theItem.field=field
     res.status(200).json(theItem)
