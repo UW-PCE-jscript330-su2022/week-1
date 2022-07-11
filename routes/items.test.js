@@ -81,6 +81,11 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(1);
       expect(itemData.items).toEqual([items[0]]);
     });
+    it("should return a 404 when an invalid id is used", async () => {
+      const res = await request(server).delete("/items/infinity");
+      expect(res.statusCode).toEqual(404);
+      expect(itemData.items.length).toEqual(2);
+    });
   });
 
 

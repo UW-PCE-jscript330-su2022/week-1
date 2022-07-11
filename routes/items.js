@@ -46,6 +46,8 @@ router.delete("/:id", (req, res, next) => {
 
   if (myData){
     res.sendStatus(200)
+  } else{
+    res.status(404).send({ error: 'not found' });
   }
 
 });
