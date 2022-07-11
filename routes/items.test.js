@@ -40,6 +40,15 @@ describe("/items", () => {
       expect(typeof itemData.items[2].id).toEqual('string');
       expect(itemData.items[2].id).toHaveLength(36);
     });
+
+    it("should return bad request for invalid request body", async () => {
+      const item = { name: 'test', id: 'test4' };
+      const res = await request(server).post("/items").send(item);
+      expect(res.statusCode).toEqual(400);
+      expect(itemData.items.length).toEqual(2);
+      expect(itemData.items).toEqual(items);
+    });
+
   });
 
   describe("PUT /", () => {
@@ -63,6 +72,21 @@ describe("/items", () => {
       const item = { field: 'Updated', id: 'new' };
       const res = await request(server).put("/items/new").send(item);
       expect(res.statusCode).toEqual(200);
+      expect(itemData.items.length).toEqual(2);
+      expect(itemData.items).toEqual(items);
+    });
+
+    it("should return bad request for empty request body", async () => {
+      const res = await request(server).put("/items/test1").send();
+      expect(res.statusCode).toEqual(400);
+      expect(itemData.items.length).toEqual(2);
+      expect(itemData.items).toEqual(items);
+    });
+
+    it("should return bad request for invalid request body", async () => {
+      const item = { name: 'Updated', id: 'test1' };
+      const res = await request(server).put("/items/test1").send(item);
+      expect(res.statusCode).toEqual(400);
       expect(itemData.items.length).toEqual(2);
       expect(itemData.items).toEqual(items);
     });
