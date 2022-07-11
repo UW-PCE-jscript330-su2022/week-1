@@ -31,29 +31,20 @@ router.put("/:id", (req, res, next) => {
     field: field
   }
   const theItem = itemData.updateById(req.params.id, updatedItem)
-  //console.log(theItem)
   if (!theItem){
     res.status(200).send({ error: 'item not found but sending a 200 to indicate no action taken' });
   } else{
-    //theItem.field=field
+
     res.status(200).json(theItem)
   }
 
 });
 
-
 router.delete("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
 
-  const theItemIndex = itemData.deleteById(req.params.id)
-  console.log(theItemIndex)
+  const myData = itemData.deleteById(req.params.id)
 
-  //res.status(501).send({ error: 'route not yet implemented' });
-
-  if (theItemIndex === -1){
-    res.status(501).send({ error: 'route not yet implemented' });
-  } else{
-
+  if (myData){
     res.sendStatus(200)
   }
 

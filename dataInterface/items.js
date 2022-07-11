@@ -16,10 +16,8 @@ module.exports.getById = (itemId) => {
 module.exports.deleteById = (itemId) => {
     // TODO: complete writing this function
   const myIndex = module.exports.items.findIndex(item => item.id === itemId)
-  if (myIndex){
-    const myItems = module.exports.items.splice(myIndex,1)
-    console.log(myItems)
-    return myIndex
+  if (myIndex!==-1){
+    return module.exports.items.splice(myIndex,1)
   }
 }
 
