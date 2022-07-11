@@ -38,11 +38,12 @@ router.delete("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
   // res.status(501).send({ error: 'route not yet implemented' });
   const found = itemData.getById(req.params.id);
-console.log(found);
   if (found) {
     itemData.deleteById(req.params.id);
+    res.sendStatus(200);
+  } else {
+    res.status(200).send({error: 'id is not a valid id'});
   }
-  res.sendStatus(200);
 });
 
 module.exports = router;

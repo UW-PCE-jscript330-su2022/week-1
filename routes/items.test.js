@@ -81,6 +81,11 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(1);
       expect(itemData.items).toEqual([items[0]]);
     });
+    it("should return prompt for invalid id parameter", async () => {
+      const res = await request(server).delete("/items/test3");
+      expect(res.statusCode).toEqual(200);
+      expect(itemData.items.length).toEqual(2);
+    });
   });
 
 
