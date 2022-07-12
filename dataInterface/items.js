@@ -16,15 +16,23 @@ module.exports.getById = (itemId) => {
 
 module.exports.deleteById = async (itemId) => {
   // TODO: complete writing this function
-  const index = module.exports.items.findIndex(item=> item.id === itemId);
+  const index = module.exports.items.findIndex(item => item.id === itemId);
   if (index >= 0) {
-     const deletedItem = module.exports.items.splice(index,1);
-     return deletedItem[0]
+    const deletedItem = module.exports.items.splice(index, 1);
+    return deletedItem[0]
   }
 }
 
 module.exports.updateById = async (itemId, newObj) => {
   // TODO: complete writing this function
+  const index = module.exports.items.findIndex(item => item.id === itemId);
+  if (index >= 0){
+   const updatedItem =  module.exports.items[index].field = newObj.field;
+   return updatedItem[0]
+ 
+}
+ 
+
 }
 
 module.exports.create = async (item) => {

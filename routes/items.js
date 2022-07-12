@@ -12,7 +12,7 @@ router.get("/:id", (req, res, next) => {
   const itemFound = itemData.getById(req.params.id)
   if (itemFound) {
     res.status(200).send(itemFound)
-  
+
   } else {
     res.status(404).send({ error: "No item found with that id" })
   }
@@ -25,10 +25,14 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
+  // complete writing this route handler
   // res.status(501).send({ error: 'route not yet implemented' });
-
-  
+  const itemUpdated = itemData.getById(req.params.id);
+  if (itemUpdated) {
+    itemData.updateById(req.params.id, req.body);
+  }
+  res.status(200).send(itemUpdated)
+  next();
 });
 
 
