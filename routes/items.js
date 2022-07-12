@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let item = itemData.getById(req.params.id);
+  const item = itemData.getById(req.params.id);
   item
     ? res.status(200).json(item)
     : res
@@ -27,17 +27,22 @@ router.put('/:id', (req, res, next) => {
   if (itemData.getById(req.params.id)) {
     itemData.updateById(req.params.id, req.body.field);
     res.status(200).send(`Item with id ${req.params.id} updated`);
+  } else {
+    res
+      .status(200)
+      .send(
+        `Item with id ${req.params.id} does not exist. No update made to data.`
+      );
   }
-  res
-    .status(200)
-    .send(
-      `Item with id ${req.params.id} does not exist. No updated made to data.`
-    );
 });
 
 router.delete('/:id', (req, res, next) => {
-  itemData.deleteById(req.params.id);
-  res.status(200).send(`Record with id of ${req.params.id} has been deleted`);
+  if (itemData.getById(req.params.id)) {
+    itemData.deleteById(req.params.id);
+    res.status(200).send(`Record with id of ${req.params.id} has been deleted`);
+  } else {
+    res.status(200).send(`Record with id of ${req.params.id} not found`);
+  }
 });
 
 module.exports = router;
