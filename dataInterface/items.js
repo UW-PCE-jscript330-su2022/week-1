@@ -16,20 +16,16 @@ module.exports.getById = (id) => {
 
 module.exports.deleteById = async (itemId) => {
     // TODO: complete writing this function
-    let itemArr = module.exports.items;
-    const theIndex = itemArr.findIndex(element => element.id === itemId)
-    const theItem = itemArr[theIndex]
-    itemArr.splice(theIndex, 1)
-    return theItem
+    const theIndex = module.exports.items.findIndex(element => element.id === itemId)
+    module.exports.items.splice(theIndex, 1)
+    return module.exports.items
 }
 
 module.exports.updateById = async (itemId, newObj) => {
  // TODO: complete writing this function
-  let itemArr = module.exports.items;
-
-  const newArr = itemArr.map(element => {
-    if (element.id) {
-      return {...element, field: ''};
+  module.exports.items = module.exports.items.map(element => { //better to use the module.exports.items here vs a variable since this is updating the data directly, vs a variable will make of "copy" of the data 
+    if (element.id === itemId) {
+      return {...element, field: newObj.field};
     }
   
     return element;
