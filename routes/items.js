@@ -8,8 +8,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  // NOTE: Completed.
+  const result = itemData.getById(req.params.id);
+
+  if (result) { res.json(result); }
+  else { res.status(404).json({error: `value ${req.params.id} not found.`}); }
 });
 
 router.post("/", (req, res, next) => {
@@ -18,14 +21,18 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  // NOTE: Completed.
+  const result = itemData.updateById(req.params.id, req.body);
+  if(result){ res.json(result) }
+  else{ res.status(404).json({ error: `Update not made. Id ${req.params.id} not found.` })}
 });
 
 
 router.delete("/:id", (req, res, next) => {
   // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const result = itemData.deleteById(req.params.id);
+  if(result) {res.json(result); }
+  else { res.status(404).json({error: `${req.params.id} not found.`})}
 });
 
 module.exports = router;
