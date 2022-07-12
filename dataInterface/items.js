@@ -9,24 +9,25 @@ module.exports.getAll = () => {
 }
 
 module.exports.getById = (itemId) => {
-  return module.exports.items.find(item => item.id == itemId)
+  return module.exports.items.find(item => item.id === itemId);
 }
 
 module.exports.deleteById = async (itemId) => {
-    const itemIndex = module.exports.items.findIndex(item => item.id == itemId)
-    if (itemIndex != NaN){
-      module.exports.items.splice(itemIndex, 1)
+    let index = module.exports.items.findIndex(item => item.id === itemId);
+    if (index >= 0)
+    {
+       module.exports.items.splice(index, 1);
     }
-    return module.exports.items
+    return index;
 }
 
 module.exports.updateById = async (itemId, newObj) => {
-    const itemIndex = module.exports.items.findIndex(item => item.id == itemId)
-    const originalItem = module.exports.items[itemIndex]
-    if(originalItem){
-      module.exports.items[itemIndex] = {...originalItem, ...newObj}
+    let index = module.exports.items.findIndex(item => item.id === itemId);
+    if (index >= 0)
+    {
+        newObj.id = itemId;
+        module.exports.items[index] = newObj;
     }
-    return module.exports.items
 }
 
 module.exports.create = async (item) => {
