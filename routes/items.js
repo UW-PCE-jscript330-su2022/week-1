@@ -8,8 +8,12 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const foundId = itemData.getById(req.params.id);
+  if(foundId){
+    res.status(200).send(foundId)
+  } else {
+    res.status(404).send({error: "item not found"})
+  }
 });
 
 router.post("/", (req, res, next) => {
@@ -18,14 +22,20 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const updatedId = itemData.getById(req.params.id);
+  if(updatedId){
+    itemData.updateById(req.params.id,req.body)
+  } 
+  res.status(200).send(updatedId)  
 });
 
 
 router.delete("/:id", (req, res, next) => {
-  // TODO: complete writing this route handler
-  res.status(501).send({ error: 'route not yet implemented' });
+  const deletedId = itemData.getById(req.params.id);
+  if(deletedId){
+    itemData.deleteById(req.params.id)
+  }
+  res.status(200).send(deletedId)
 });
 
 module.exports = router;
