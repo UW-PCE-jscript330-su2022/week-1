@@ -7,7 +7,7 @@ const router = Router();
 
 const itemData = require('../dataInterface/items');
 
-const msg404 = "404: Item not found.";
+const msg404 = "🛆 404: Item not found.";
 
 router.get("/", (req, res, next) => {
   res.status(200).send(itemData.getAll())

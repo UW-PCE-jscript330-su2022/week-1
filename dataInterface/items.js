@@ -2,6 +2,7 @@
 // dataInterface/items.js //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// uuid - library used to produce uuids.
 const uuid = require('uuid');
 
 module.exports = {};
@@ -13,14 +14,14 @@ module.exports.getAll = () => {
 }
 
 // Given [itemId],
-// returns [item] with [id] of [itemId].
+// returns [gotById] with [id] of [itemId].
 module.exports.getById = (itemId) => {
   const gotById = module.exports.items.find(item => item.id === itemId);
   return gotById;
 }
 
 // Given [itemId], 
-// deletes the [item] from [items] with an [id] matching [itemId].
+// deletes the item from [items] with an [id] matching [itemId].
 module.exports.deleteById = async (itemId) => {
   const deletedIndex = module.exports.items.findIndex(item => item.id === itemId);
   module.exports.items.splice(deletedIndex, 1);
