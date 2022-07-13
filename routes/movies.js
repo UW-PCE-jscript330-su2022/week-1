@@ -10,9 +10,9 @@ router.get("/", async (req, res, next) => {
     res.status(200).send(movieList)
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
 
-    const theMovie = movieData.getById(req.params.id)
+    const theMovie = await movieData.getById(req.params.id)
     if (theMovie){
         res.json(theMovie)
     } else{

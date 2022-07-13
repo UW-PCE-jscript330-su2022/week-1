@@ -16,30 +16,30 @@ module.exports.getAll = async () => {
     return movieCursor.toArray()
 }
 
-module.exports.getById = (movieId) => {
-    const database = client.db('databaseName')
-    const movies = database.collection('collName')
-
-    return {}
+module.exports.getById = async (movieId) => {
+    const database = client.db(databaseName)
+    const movies = database.collection(collName)
+    const query = {title: "Titanic"}
+    return await movies.findOne(query)
 }
 
 module.exports.deleteById =  (movieId) => {
-    const database = client.db('databaseName')
-    const movies = database.collection('collName')
+    const database = client.db(databaseName)
+    const movies = database.collection(collName)
 
     return []
 }
 
 module.exports.updateById = (movieId, newObj) => {
-    const database = client.db('databaseName')
-    const movies = database.collection('collName')
+    const database = client.db(databaseName)
+    const movies = database.collection(collName)
 
     return []
 }
 
 module.exports.create = (newObj) => {
-    const database = client.db('databaseName')
-    const movies = database.collection('collName')
+    const database = client.db(databaseName)
+    const movies = database.collection(collName)
 
     return {}
 }
