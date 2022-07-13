@@ -23,9 +23,9 @@ router.post("/", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  const newItem = itemData.updateById(req.params.id, req.body.field)
+  const newItem = itemData.updateById(req.params.id, req.body.field);
    if (newItem) {
-    res.sendStatus(200)
+    res.sendStatus(200);
    }
    res.status(404).send({ error: 'does not exist' });
 });
@@ -42,7 +42,3 @@ router.delete("/:id", (req, res, next) => {
 
 module.exports = router;
 
-// router.delete("/:id", (req, res, next) => {
-//   const newItemsArray = itemData.deleteById(req.params.id)
-//   res.json(newItemsArray)
-// });
