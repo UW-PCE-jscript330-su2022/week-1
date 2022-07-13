@@ -3,8 +3,11 @@ const router = Router();
 
 const movieData = require('../dataInterface/movies');
 
-router.get("/", (req, res, next) => {
-    res.status(200).send(movieData.getAll())
+router.get("/", async (req, res, next) => {
+
+    let movieList = await movieData.getAll()
+
+    res.status(200).send(movieList)
 });
 
 router.get("/:id", (req, res, next) => {
