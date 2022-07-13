@@ -10,7 +10,7 @@ module.exports.getAll = () => {
 
 module.exports.getById = (itemId) => {
   // TODO: complete writing this function
-  const selectedItem = module.exports.items.find(item => item.id == itemId)
+  const selectedItem = module.exports.items.find(item => item.id == itemId);
   return selectedItem;
 }
 
