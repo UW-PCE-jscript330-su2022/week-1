@@ -12,7 +12,6 @@ module.exports = {};
 
 // sortType of 1 is ascending, sortType of 0 is descending
 module.exports.getAll = async (sortKey, sortDirection) => {
-  console.log(sortKey, ' -- ', sortDirection);
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);
 
@@ -52,7 +51,8 @@ module.exports.getById = async (movieId) => {
 module.exports.deleteById = (movieId) => {
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);
-  return [];
+
+  return movies.deleteOne({ _id: ObjectId(movieId) });
 };
 
 module.exports.updateById = (movieId, newObj) => {

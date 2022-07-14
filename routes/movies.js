@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
     req.body.sortKey,
     req.body.sortDirection
   );
-  res.status(200).send(movieList);
+  res.status(200).json(movieList);
 });
 
 // curl http://localhost:5000/movies/573a1390f29313caabcd4135
@@ -28,11 +28,9 @@ router.get('/title/:title', async (req, res, next) => {
   const movie = await movieData.getByTitle(req.params.title);
   movie
     ? res.status(200).json(movie)
-    : res
-        .status(404)
-        .json({
-          error: `No movie found with the title of ${req.params.title}`,
-        });
+    : res.status(404).json({
+        error: `No movie found with the title of ${req.params.title}`,
+      });
 });
 
 // curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Aliens..."}' http://localhost:5000/movies
@@ -48,7 +46,7 @@ router.put('/:id', (req, res, next) => {
     res.status(200).send(`movie with id ${req.params.id} updated`);
   } else {
     res
-      .status(200)
+      .status(404)
       .send(
         `movie with id ${req.params.id} does not exist. No update made to data.`
       );
@@ -56,12 +54,12 @@ router.put('/:id', (req, res, next) => {
 });
 
 // curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   if (movieData.getById(req.params.id)) {
-    movieData.deleteById(req.params.id);
+    console.log(await movieData.deleteById(req.params.id));
     res.status(200).send(`Record with id of ${req.params.id} has been deleted`);
   } else {
-    res.status(200).send(`Record with id of ${req.params.id} not found`);
+    res.status(404).send(`Record with id of ${req.params.id} not found`);
   }
 });
 
