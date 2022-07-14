@@ -3,12 +3,17 @@ const router = Router();
 
 const movieData = require('../dataInterface/movies');
 
-// curl http://localhost:5000/movies
+// Get all movies: curl http://localhost:5000/movies
+// Get all movies and sort: curl -X GET -H "Content-Type: application/json" -d '{"sortKey": "<key>", "sortDirection": "<sortDirection>"}' http://localhost:5000/movies
 router.get('/', async (req, res, next) => {
-  let movieList = await movieData.getAll();
+  let movieList = await movieData.getAll(
+    req.body.sortKey,
+    req.body.sortDirection
+  );
   res.status(200).send(movieList);
 });
 
+// curl http://localhost:5000/movies/573a1390f29313caabcd4135
 router.get('/:id', async (req, res, next) => {
   const movie = await movieData.getById(req.params.id);
   movie
@@ -18,11 +23,25 @@ router.get('/:id', async (req, res, next) => {
         .json({ error: `No movie found with the id of ${req.params.id}` });
 });
 
+// curl http://localhost:5000/movies/title/The%20Goonies
+router.get('/title/:title', async (req, res, next) => {
+  const movie = await movieData.getByTitle(req.params.title);
+  movie
+    ? res.status(200).json(movie)
+    : res
+        .status(404)
+        .json({
+          error: `No movie found with the title of ${req.params.title}`,
+        });
+});
+
+// curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Aliens..."}' http://localhost:5000/movies
 router.post('/', async (req, res, next) => {
   let result = await movieData.create(req.body);
   res.status(200).send(`New movie created`);
 });
 
+// curl -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/573a1390f29313caabcd42e8
 router.put('/:id', (req, res, next) => {
   if (movieData.getById(req.params.id)) {
     movieData.updateById(req.params.id, req.body.field);
@@ -36,6 +55,7 @@ router.put('/:id', (req, res, next) => {
   }
 });
 
+// curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 router.delete('/:id', (req, res, next) => {
   if (movieData.getById(req.params.id)) {
     movieData.deleteById(req.params.id);

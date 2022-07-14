@@ -10,13 +10,34 @@ const collectionName = 'movies';
 
 module.exports = {};
 
-module.exports.getAll = async () => {
+// sortType of 1 is ascending, sortType of 0 is descending
+module.exports.getAll = async (sortKey, sortDirection) => {
+  console.log(sortKey, ' -- ', sortDirection);
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);
 
   const query = {};
-  let movieCursor = await movies.find(query).limit(10);
-  return movieCursor.toArray();
+
+  if (sortKey && sortDirection) {
+    movieCursor = await movies
+      .find(query)
+      .limit(50)
+      .project({ [sortKey]: 1 })
+      .sort({ [sortKey]: sortDirection });
+    return movieCursor.toArray();
+  } else {
+    movieCursor = await movies.find(query).limit(50);
+    return movieCursor.toArray();
+  }
+};
+
+module.exports.getByTitle = async (title) => {
+  const database = client.db(databaseName);
+  const movies = database.collection(collectionName);
+
+  const query = { title: title };
+  let movieCursor = await movies.findOne(query);
+  return movieCursor;
 };
 
 module.exports.getById = async (movieId) => {
@@ -24,8 +45,8 @@ module.exports.getById = async (movieId) => {
   const movies = database.collection(collectionName);
 
   const query = { _id: ObjectId(movieId) };
-  let movie = await movies.findOne(query);
-  return movie;
+  let movieCursor = await movies.findOne(query);
+  return movieCursor;
 };
 
 module.exports.deleteById = (movieId) => {
