@@ -49,19 +49,24 @@ router.post("/", async (req, res, next) => {
     res.sendStatus(200)
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
 
-    const { id, field } = req.body
-    const updatedMovie = {
-        id: id,
-        field: field
-    }
-    const theMovie = movieData.updateById(req.params.id, updatedMovie)
-    if (!theMovie){
-        res.status(200).send({ error: 'Movie not found but sending a 200 to indicate no action taken' });
+    // const { title } = req.body
+    // const updatedMovie = {
+    //     id: req.params.id,
+    //     title: title
+    // }
+
+    const theMovie = await movieData.updateById(req.params.id, req.body)
+
+    console.log(theMovie.modifiedCount)
+
+    if (theMovie.modifiedCount===0){
+        res.status(200).send({ message: "nothing modified" });
+    } else if (theMovie.modifiedCount===1){
+        res.status(200).json(req.body)
     } else{
-
-        res.status(200).json(theMovie)
+        res.status(404).send({ error: theMovie.message });
     }
 
 });
@@ -73,7 +78,7 @@ router.delete("/:id", async(req, res, next) => {
     if (myData.acknowledged===true){
         res.sendStatus(200)
     } else{
-        res.status(404).send({ error: res.json(myData.message) });
+        res.status(404).send({ error: myData.message });
     }
 
 });

@@ -65,11 +65,26 @@ module.exports.deleteById =  async (movieId) => {
 
 }
 
-module.exports.updateById = (movieId, newObj) => {
+module.exports.updateById = async (movieId, newObj) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
+    console.log(movieId.length)
 
-    return []
+    if(movieId.length===24){
+        const result = await movies.updateOne({
+                _id: ObjectId(movieId)
+            },{
+                $set:{
+                    title: newObj.title
+                }
+            }
+        )
+        return result
+    } else{
+        return {message: `MESSAGE: id ${movieId} not Found in database`}
+    }
+
+
 }
 
 module.exports.create = async (newObj) => {
