@@ -34,8 +34,10 @@ router.get("/titles/:title", async (req, res, next) => {
     } else{
         // mongodb requires a string of 12 bytes
         // so if you enter 123 as id, the app will crash
-        res.status(404).send({ error: 'not found' });
+        //res.status(404).send({ error: 'not found' });
         //res.status(404);
+        res.status(404).send({ error: res.json(theMovie.message) });
+
 
     }
 });
@@ -68,10 +70,10 @@ router.delete("/:id", async(req, res, next) => {
 
     const myData = await movieData.deleteById(req.params.id)
 
-    if (myData){
+    if (myData.acknowledged===true){
         res.sendStatus(200)
     } else{
-        res.status(404).send({ error: 'not found' });
+        res.status(404).send({ error: res.json(myData.message) });
     }
 
 });

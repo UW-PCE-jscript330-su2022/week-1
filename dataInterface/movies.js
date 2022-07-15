@@ -45,17 +45,24 @@ module.exports.getByTitle = async (movieTitle) => {
     if (result){
         return result
     } else{
-        return {message: `ERROR: id ${movieTitle} not Found in database`}
+        return {message: `ERROR: Title ${movieTitle} not Found in database`}
     }
 
 
 }
 
-module.exports.deleteById =  (movieId) => {
+module.exports.deleteById =  async (movieId) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
 
-    return []
+    if (movieId.length ===24){
+        const query = {_id: ObjectId(movieId)}
+        const result = await movies.deleteOne(query)
+        return result
+    } else{
+        return {message: `ERROR: id ${movieId} not Found in database`}
+    }
+
 }
 
 module.exports.updateById = (movieId, newObj) => {
