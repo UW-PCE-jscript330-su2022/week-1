@@ -15,16 +15,10 @@ router.get("/:id", async (req, res, next) => {
     if (theMovie){
         res.json(theMovie)
     } else{
-        // mongodb requires a string of 12 bytes
-        // so if you enter 123 as id, the app will crash
         res.status(404).send({ error: res.json(theMovie.message) });
-        //res.status(404);
 
     }
 });
-
-// route title works, but then route id stops working
-// route id expects a string of 12 characters as the id
 
 router.get("/titles/:title", async (req, res, next) => {
 
@@ -32,34 +26,25 @@ router.get("/titles/:title", async (req, res, next) => {
     if (theMovie){
         res.json(theMovie)
     } else{
-        // mongodb requires a string of 12 bytes
-        // so if you enter 123 as id, the app will crash
-        //res.status(404).send({ error: 'not found' });
-        //res.status(404);
         res.status(404).send({ error: res.json(theMovie.message) });
-
-
     }
 });
 
 router.post("/", async (req, res, next) => {
     const result = await movieData.create(req.body);
-    //TODO: if result.message == ERROR say something
-    //res.sendStatus(200).send(result)
-    res.sendStatus(200)
+
+    if(result.newObjectId){
+        res.status(200).send(result.message)
+    } else{
+        res.status(404).send(result.message)
+    }
+
+
 });
 
 router.put("/:id", async (req, res, next) => {
 
-    // const { title } = req.body
-    // const updatedMovie = {
-    //     id: req.params.id,
-    //     title: title
-    // }
-
     const theMovie = await movieData.updateById(req.params.id, req.body)
-
-    console.log(theMovie.modifiedCount)
 
     if (theMovie.modifiedCount===0){
         res.status(200).send({ message: "nothing modified" });

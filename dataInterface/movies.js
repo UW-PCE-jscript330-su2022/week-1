@@ -13,15 +13,12 @@ module.exports.getAll = async () => {
     const movies = database.collection(collName)
     const query={}
     let movieCursor = await movies.find(query).limit(10).project({title:1, runtime:1}).sort({runtime:-1})
-    //console.log was causing a Promise {<Pending>} error
-    //console.log(movieCursor.toArray())
     return movieCursor.toArray()
 }
 
 module.exports.getById = async (movieId) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
-    //const query = {title: "Titanic"}
 
     if (movieId.length ===24){
         const query = {_id: ObjectId(movieId)}
@@ -37,17 +34,14 @@ module.exports.getById = async (movieId) => {
 module.exports.getByTitle = async (movieTitle) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
-    //const query = {title: "Titanic"}
     const query = {title: movieTitle}
-
     const result = await movies.findOne(query)
-    //console.log(result)
+
     if (result){
         return result
     } else{
         return {message: `ERROR: Title ${movieTitle} not Found in database`}
     }
-
 
 }
 
@@ -84,20 +78,28 @@ module.exports.updateById = async (movieId, newObj) => {
         return {message: `MESSAGE: id ${movieId} not Found in database`}
     }
 
-
 }
 
 module.exports.create = async (newObj) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
-    const result = await movies.insertOne(newObj)
-    const id = result.insertedId
+    const query = {_id: ObjectId(newObj._id)}
+    const movieID = await movies.findOne(query)
 
-    //console.log(result)
+    if(!movieID){
 
-    if(result.acknowledged){
-        return {newObjectId: id, message: `Item created ID: ${id}`}
-    } else {
-        return {message: "ERROR"}
+        const result = await movies.insertOne(newObj)
+        const id = result.insertedId
+
+        if(result.acknowledged){
+            return {newObjectId: id, message: `Item created ID: ${id} and title: ${newObj.title}`}
+
+        } else {
+            return {message: `ERROR: Unable to insert ${newObj.title} into database`}
+        }
+
+    } else{
+        return {message: `ID: ${newObj._id} already exists. Unable to create a duplicate`}
     }
+
 }
