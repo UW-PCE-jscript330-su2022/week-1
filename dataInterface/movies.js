@@ -12,7 +12,8 @@ module.exports.getAll = async () => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
     const query={}
-    let movieCursor = await movies.find(query).limit(10).project({title: 1})
+    let movieCursor = await movies.find(query).limit(10).project({title:1, runtime:1}).sort({runtime:-1})
+    //console.log was causing a Promise {<Pending>} error
     //console.log(movieCursor.toArray())
     return movieCursor.toArray()
 }
@@ -21,11 +22,33 @@ module.exports.getById = async (movieId) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
     //const query = {title: "Titanic"}
-    const query = {_id: ObjectId(movieId)}
+
+    if (movieId.length ===24){
+        const query = {_id: ObjectId(movieId)}
+        const result = await movies.findOne(query)
+        return result
+    } else{
+
+        return {message: `ERROR: id ${movieId} not Found in database`}
+    }
+
+}
+
+module.exports.getByTitle = async (movieTitle) => {
+    const database = client.db(databaseName)
+    const movies = database.collection(collName)
+    //const query = {title: "Titanic"}
+    const query = {title: movieTitle}
 
     const result = await movies.findOne(query)
+    //console.log(result)
+    if (result){
+        return result
+    } else{
+        return {message: `ERROR: id ${movieTitle} not Found in database`}
+    }
 
-    return result
+
 }
 
 module.exports.deleteById =  (movieId) => {
