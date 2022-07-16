@@ -1,6 +1,6 @@
-# Week 1
+# Week 2 Homework Documentation
 
-This week is an introduction to Node.js, Express, and unit testing with Jest. The focus of this week will be on getting comfortable with the development environment, tools, and best practices in back-end development.
+For this activity I used Postman for all http requests. Postman adds flexibility in the sense that the http requests can be saved in a collection for later use. Therefore, reducing testing time significantly in comparison to using curl commands. 
 
 ## Learning Objectives
 
