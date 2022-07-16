@@ -12,6 +12,10 @@ const client = new MongoClient(uri);
 const databaseName = "sample_mflix";
 const colName = "movies";
 
+const msgMovie = (movie) => {
+  return movie;
+}
+
 module.exports = {};
 
 module.exports.getAll = async () => {
@@ -23,9 +27,9 @@ module.exports.getAll = async () => {
   // `find()` returns a promise, so we use await to catch it and proceed,
   // `limit(10)` reduces allowed results to `10`,
   // `project({title: 1})` reduces results to just `title`s.
-  let movieCursor = await movies.find(query).limit(10).project({title: 1});
+  let moviesCursor = await movies.find(query).limit(10).project({ title: 1 }).sort({ title: 1 });
   // Converts `movieCursor` response `toArray()`.
-  return movieCursor.toArray();
+  return moviesCursor.toArray();
 }
 
 module.exports.getById = async (movieId) => {
@@ -34,8 +38,16 @@ module.exports.getById = async (movieId) => {
   const query = {_id: ObjectId(movieId)};
   // `findOne(query)` returns single entry given `query`.
   let movie = await movies.findOne(query);
-  console.log("MOVIE: " + movie);
+  console.log(msgMovie(movie));
   return movie;
+}
+
+module.exports.getByTitle = async (movieTitle) => {
+  const database = client.db(databaseName);
+  const movies = database.collection(colName);
+  const query = {title: movieTitle};
+  let moviesCursor = await movies.find(query).limit(10);
+  return moviesCursor.toArray();
 }
 
 module.exports.deleteById = async (movieId) => {
@@ -53,9 +65,10 @@ module.exports.updateById = async (movieId, newObj) => {
 module.exports.create = async (newObj) => {
   const database = client.db(databaseName);
   const movies = database.collection(colName);
-  return result = await movies.insertOne(newObj);
+  const result = await movies.insertOne(newObj);
+  // console.log(result);
   if (result.acknowledged) {
-    return { newObjectId: result.insertId, message: `Item created! ID: ${result.insertedId}` };
+    return { newObjectId: result.insertedId, message: `Item created! ID: ${result.insertedId}` };
   } else {
     return { message: "🛆 Error: Item not created." };
   }

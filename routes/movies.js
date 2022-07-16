@@ -17,9 +17,9 @@ router.get("/", async (req, res, next) => {
   res.status(200).send(movieList);
 });
 
-// curl http://localhost:5000/movies/7
+// curl http://localhost:5000/movies/573a1390f29313caabcd4135
 router.get("/:id", async (req, res, next) => {
-  const gotMovie = movieData.getById(req.params.id);
+  const gotMovie = await movieData.getById(req.params.id);
   if (!gotMovie) {
     res.status(404).send(msg404(req.params.id));
   } else {
@@ -27,11 +27,25 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// curl -X POST -H "Content-Type: application/json" -d '{"field": "new item value"}' http://localhost:5000/movies
+// curl http://localhost:5000/movies/Titanic
+router.get("/title/:title", async (req, res, next) => {
+  const gotByTitle = await movieData.getByTitle(req.params.title);
+  if (!gotByTitle) {
+    res.status(404).send(msg404(req.params.title));
+  } else {
+    res.status(200).send(gotByTitle);
+  }
+})
+
+// curl -X POST -H "Content-Type: application/json" -d '{"title": "yolo"}' http://localhost:5000/movies
 router.post("/", async (req, res, next) => {
   let result = await movieData.create(req.body);
-  // TODO if !result.newObject, do somethin' else.
-  res.sendStatus(200).send(result);
+  console.log(result);
+  if (!result.newObjectId) {
+    res.status(404).send(result);
+  } else {
+    res.status(200).send(result);
+  }
 });
 
 // curl -X PUT -H "Content-Type: application/json" -d '{"field": "updated value"}' http://localhost:5000/movies
@@ -40,7 +54,7 @@ router.put("/:id", (req, res, next) => {
   res.status(200).send();
 });
 
-// curl -X DELETE http://localhost:5000/movies/7
+// curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 router.delete("/:id", (req, res, next) => {
   movieData.deleteById(req.params.id);
   res.status(200).send();
