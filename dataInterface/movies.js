@@ -57,39 +57,20 @@ module.exports.deleteById =  async (movieId) => {
     const query = {_id: ObjectId(movieId)}
     const searchID = await movies.findOne(query)
 
-    // hard to handle exceptions
+    if (searchID){
 
-    // await movies.deleteOne(query,(error, result)=>{
-    //     if (error) {
-    //         console.log('error')
-    //         return {message: `ERROR: id ${movieId} not Found in database`}
-    //     }
-    //
-    //     else if (result.acknowledged && result.deletedCount === 1){
-    //         //console.log('item deleted')
-    //         console.log(result.acknowledged)
-    //         return result
-    //         //return {message: `MESSAGE: id ${movieId} deleted`}
-    //     } else{
-    //         return {message: `ERROR: id ${movieId} not Found in database`}
-    //     }
-    // })
-
-    if(searchID){
-        if (movieId.length ===24){
-            const query = {_id: ObjectId(movieId)}
-            const result = await movies.deleteOne(query)
-            if (result.acknowledged===true){
-                return result
-            } else{
-                return {message: `ERROR: id ${movieId} not Found in database`}
-            }
-
+        const query = {_id: ObjectId(movieId)}
+        const result = await movies.deleteOne(query)
+        if (result.acknowledged===true){
+            return {message: `MESSAGE: document with id ${movieId} deleted from database`}
         } else{
-            return {message: `ERROR: id ${movieId} not Found in database`}
+            return {message: `ERROR: an error occurred while trying to delete document with id ${movieId}`}
         }
+
     } else{
-        return {message: `ERROR: id ${movieId} not Found in database`}
+        console.log('item not found')
+        return {message: `ERROR: document with id ${movieId} not Found in database`}
+
     }
 
 }

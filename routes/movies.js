@@ -55,28 +55,16 @@ router.put("/:id", async (req, res, next) => {
 
 });
 
-router.delete("/:id", async(req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
 
-    const myData = await movieData.deleteById(req.params.id)
+    try{
+        const myData = await movieData.deleteById(req.params.id)
+        res.status(200).send(myData.message)
 
+    } catch(error){
 
-    // if(myData.acknowledged===true){
-    //     console.log('acknowledged is true')
-    // }
-    // if(myData){
-    //     //console.log('acknowledged equals true')
-    //     res.status(200)
-    // }
-    //res.status(200)
-
-
-    if (myData.acknowledged===true){
-        res.status(200).send({message: `Document with ID ${req.params.id} successfully deleted`})
-    } else{
-        res.status(404).send({ error: myData.message });
+        res.status(404).send({error: error.message})
     }
-
-
 
 });
 
