@@ -78,7 +78,6 @@ module.exports.deleteById =  async (movieId) => {
 module.exports.updateById = async (movieId, newObj) => {
     const database = client.db(databaseName)
     const movies = database.collection(collName)
-    //console.log(movieId.length)
 
     if(movieId.length===24){
         const result = await movies.updateOne({
