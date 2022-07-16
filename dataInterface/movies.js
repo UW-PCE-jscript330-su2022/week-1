@@ -90,8 +90,9 @@ module.exports.updateById = async (movieId, newObj) => {
             }
         )
         return result
+
     } else{
-        return {message: `MESSAGE: id ${movieId} not Found in database`}
+        return {message: `id ${movieId} not Found in database`}
     }
 
 }

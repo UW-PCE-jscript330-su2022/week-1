@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
     if (theMovie.modifiedCount===0){
         res.status(200).send({ message: "nothing modified" });
     } else if (theMovie.modifiedCount===1){
-        res.status(200).json(req.body)
+        res.status(200).send({message: `document with id: ${req.params.id} successfully modified`})
     } else{
         res.status(404).send({ error: theMovie.message });
     }
