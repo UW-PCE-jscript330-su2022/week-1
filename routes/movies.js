@@ -7,27 +7,31 @@ const router = Router();
 
 const movieData = require('../dataInterface/movies');
 
-const msg404 = "🛆 404: Movie not found.";
+const msg404 = (missingMovie) => {
+  return `🛆 404: Movie ${missingMovie} not found.`
+}
 
 // curl http://localhost:5000/movies
-router.get("/", (req, res, next) => {
-  res.status(200).send(movieData.getAll())
+router.get("/", async (req, res, next) => {
+  let movieList = await movieData.getAll();
+  res.status(200).send(movieList);
 });
 
 // curl http://localhost:5000/movies/7
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   const gotMovie = movieData.getById(req.params.id);
   if (!gotMovie) {
-    res.status(404).send(msg404);
+    res.status(404).send(msg404(req.params.id));
   } else {
     res.status(200).send(gotMovie);
   }
 });
 
 // curl -X POST -H "Content-Type: application/json" -d '{"field": "new item value"}' http://localhost:5000/movies
-router.post("/", (req, res, next) => {
-  movieData.create(req.body);
-  res.sendStatus(200);
+router.post("/", async (req, res, next) => {
+  let result = await movieData.create(req.body);
+  // TODO if !result.newObject, do somethin' else.
+  res.sendStatus(200).send(result);
 });
 
 // curl -X PUT -H "Content-Type: application/json" -d '{"field": "updated value"}' http://localhost:5000/movies
