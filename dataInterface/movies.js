@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const ObjectId = require('mongodb').ObjectId;
 
-const uri = "<your mongo URI>";
+const uri = "mongodb+srv://joseph:Js%403213@joseph-cluster.nkuuek9.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
 const databaseName = 'sample_mflix';
