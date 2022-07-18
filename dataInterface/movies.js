@@ -49,6 +49,15 @@ module.exports.getById = async (movieId) => {
   return movieDoc;
 };
 
+module.exports.getByTitleAndYear = async (title, year) => {
+  const database = client.db(databaseName);
+  const movies = database.collection(collectionName);
+
+  const query = { title: title, year: parseInt(year) };
+  let movieCursor = await movies.find(query);
+  return (await movieCursor.hasNext()) ? movieCursor.toArray() : null;
+};
+
 module.exports.deleteById = (movieId) => {
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);

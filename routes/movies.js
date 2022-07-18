@@ -32,6 +32,19 @@ router.get('/title/:title', async (req, res, next) => {
         error: `No movie found with the title of ${req.params.title}.`,
       });
 });
+// curl http://localhost:5000/movies/title/Happiness/year/1998
+router.get('/title/:title/year/:year', async (req, res, next) => {
+  const movies = await movieData.getByTitleAndYear(
+    req.params.title,
+    req.params.year
+  );
+
+  movies
+    ? res.status(200).json(movies)
+    : res.status(404).json({
+        error: `No movies found with the title of ${req.params.title} and release year of ${req.params.year}.`,
+      });
+});
 
 // curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Aliens..."}' http://localhost:5000/movies
 router.post('/', async (req, res, next) => {
