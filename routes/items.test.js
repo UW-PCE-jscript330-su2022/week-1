@@ -40,12 +40,6 @@ describe("/items", () => {
       expect(typeof itemData.items[2].id).toEqual('string');
       expect(itemData.items[2].id).toHaveLength(36);
     });
-
-    it("should return 204 if the 'field' is empty", async () => {
-      const item = { field: '', newKey: 'empty' };
-      const res = await request(server).post("/items").send(item);
-      expect(res.statusCode).toEqual(204);
-    });
   });
 
   describe("PUT /", () => {
@@ -65,18 +59,12 @@ describe("/items", () => {
       expect(itemData.items[1]).toEqual({ id: 'test2', field: 'Updated' });
     });
 
-    it("should do nothing if the 'field' is empty", async () => {
-      const item = { field: '', id: 'new' };
-      const res = await request(server).put("/items/test1").send(item);
-      expect(res.statusCode).toEqual(204);
-      expect(itemData.items.length).toEqual(2);
-      expect(itemData.items).toEqual(items);
-    });
-
-    it("should return 404 if id does not exist", async () => {
+    it("should do nothing if id does not exist", async () => {
       const item = { field: 'Updated', id: 'new' };
       const res = await request(server).put("/items/new").send(item);
-      expect(res.statusCode).toEqual(404);
+      expect(res.statusCode).toEqual(200);
+      expect(itemData.items.length).toEqual(2);
+      expect(itemData.items).toEqual(items);
     });
   });
 
@@ -93,12 +81,7 @@ describe("/items", () => {
       expect(itemData.items.length).toEqual(1);
       expect(itemData.items).toEqual([items[0]]);
     });
-
-    it("should return 404 if item's id does not exist", async () => {
-      const res = await request(server).delete("/items/abc");
-      expect(res.statusCode).toEqual(404);
-    });
-
   });
+
 
 });
