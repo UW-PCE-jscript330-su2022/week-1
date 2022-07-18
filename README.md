@@ -10,6 +10,35 @@ At the end of this week, a student should:
 - be comfortable reading and working with unit tests
 - be able to build a simple in-memory REST API
 
+## ENDPOINT DOCUMENTATION
+
+```
+GET /movies
+```
+Typing in `http://localhost:5000/movies` will provide a list of movies sorted in ascending order (A to Z, not Z to A) by title. Be aware that there will be repeated titles, as there are only so many combinations of words that make sense and not overly combersome - such is the fate of the 1995 movie *The Englishman Who Went Up a Hill But Came Down a Mountain* is not as succinct as 2018's *Avengers: Infinity War* - so don't be bothered by the repeating titles.
+
+Be aware this is arranging alphabetically and follows the ASCII rank of symbols - there will be movies that start with symbols such as the starburst (\*), which is why **batteries not included* will show up before, say, *Avatar* from 2009.
+
+```
+GET /movies/:id
+```
+
+
+```
+GET /movies/title/:title
+```
+*Be sure that **title** is singular. Not **titles**.*
+
+Typing in `http://localhost:5000/movies/title/<title>` will provide the first movie that matches the criteria. Remember that this is URL encoded, e.g.: spaces will need to show up as %20. So instead of writing `http://localhost:5000/movies/title/return of the king`, one will need to write `http://localhost:5000/movies/title/return%20of%20the%20king`.
+
+This is also mostly case insensitve, so capitalization is not needed, but be aware that this will also look at partial movie titles. If you are looking for Alita: Battle Angel, and you put in `http://localhost:5000/movies/title/alita`, you get *Igualita a mi* because it's the first instance of `alita` that is seen. Now you may want to try the term `battle angel` and so you input `http://localhost:5000/movies/title/battle%20angel`. But alas, not all movies that you seek may be in this list.
+
+```
+POST /movies
+PUT /items/:id
+DELETE /items/:id
+```
+
 ## The assignment
 
 The assignment this week is designed to get you comfortable working in an Express server. It is meant to get you aquainted with a project of the type we will be working in during this course. It contains a simple set of REST endpoints for a generic data type (`items`). You will complete the code for this REST API to meet the requirements as defined in the test suite.
