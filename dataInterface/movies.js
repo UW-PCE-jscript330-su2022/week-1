@@ -10,7 +10,8 @@ const collectionName = 'movies';
 
 module.exports = {};
 
-// sortType of 1 is ascending, sortType of 0 is descending
+// sortType of 1 is ascending, sortType of -1 is descending
+// NOTE: Unless you specify the sort() method or use the $near operator, MongoDB does not guarantee the order of query results.
 module.exports.getAll = async (sortKey, sortDirection) => {
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);
@@ -18,14 +19,14 @@ module.exports.getAll = async (sortKey, sortDirection) => {
   const query = {};
 
   if (sortKey && sortDirection) {
-    movieCursor = await movies
+    const movieCursor = await movies
       .find(query)
       .limit(50)
       .project({ [sortKey]: 1 })
       .sort({ [sortKey]: sortDirection });
     return movieCursor.toArray();
   } else {
-    movieCursor = await movies.find(query).limit(50);
+    const movieCursor = await movies.find(query).limit(50);
     return movieCursor.toArray();
   }
 };
@@ -35,8 +36,8 @@ module.exports.getByTitle = async (title) => {
   const movies = database.collection(collectionName);
 
   const query = { title: title };
-  let movieCursor = await movies.findOne(query);
-  return movieCursor;
+  let movieDoc = await movies.findOne(query);
+  return movieDoc;
 };
 
 module.exports.getById = async (movieId) => {
@@ -44,8 +45,8 @@ module.exports.getById = async (movieId) => {
   const movies = database.collection(collectionName);
 
   const query = { _id: ObjectId(movieId) };
-  let movieCursor = await movies.findOne(query);
-  return movieCursor;
+  let movieDoc = await movies.findOne(query);
+  return movieDoc;
 };
 
 module.exports.deleteById = (movieId) => {
@@ -65,7 +66,7 @@ module.exports.create = async (movie) => {
   const database = client.db(databaseName);
   const movies = database.collection(collectionName);
 
-  const result = await movies.insert(newObj);
+  const result = await movies.insertOne(movie);
 
   if (result.acknowledged) {
     return {
