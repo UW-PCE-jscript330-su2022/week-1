@@ -33,7 +33,7 @@ module.exports.getAll = async () => {
     }
 }
 
-// find movies with the title Titanic
+// find all movies with the title Titanic
 module.exports.getByTitle = async () => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
@@ -53,25 +53,26 @@ module.exports.getByTitle = async () => {
     }
 }
 
-
 // find one movie record with a specified id
-module.exports.getById = async () => {
+module.exports.getById = async (movieId) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
 
-    const query = {title: "Titanic"};
+    const query = {_id: ObjectId(movieId)};
     let movie = await movies.findOne(query);
     console.log("MOVIE: ", movie);
     return movie;
 }
 
 
+// delete by id
 module.exports.deleteById = (movieId) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
     return []
 }
 
+// update an object
 module.exports.updateById = (movieId, newObj) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);

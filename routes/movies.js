@@ -15,7 +15,7 @@ router.get("/titles/:title", async (req, res, next) => {
     res.status(200).send(movieTitle)
 });
 
-// curl -sS http://localhost:5000/movies/3
+// curl -sS http://localhost:5000/movies/573a13bcf29313caabd57d52
 router.get("/:id", async (req, res, next) => {
     const theMovie = await movieData.getById(req.params.id)
     if(theMovie) {
