@@ -14,7 +14,7 @@ Now you can query the movie database using `curl`! (`man curl`)
 
 Get **all movies** in the database by querying the `/movies` route:
 
-``` shell
+```
 curl http://localhost:5000/movies
 ```
 
@@ -31,7 +31,7 @@ Movies are *sorted alphabetically in descending order*.
 Get a movie **by _id** by appending the `_id` of your movie to the `/movies` 
 route:
 
-``` shell
+```
 curl http://localhost:5000/movies/573a13e6f29313caabdc56c7
 ```
 
@@ -44,7 +44,7 @@ curl http://localhost:5000/movies/573a13e6f29313caabdc56c7
 
 Get a movie **by title** by appending the movie's `title` to the `/movies/title` route:
 
-``` shell
+```
 curl http://localhost:5000/movies/title/Titanic
 ```
 
@@ -60,7 +60,7 @@ curl http://localhost:5000/movies/title/Titanic
 **Add a new movie** to the database by sending a `POST` request including JSON 
 data with your movie's properties:
 
-``` shell
+```
 curl -X POST -H "Content-Type: application/json" -d '{"title": "My New Movie"}' http://localhost:5000/movies
 ```
 
@@ -75,7 +75,7 @@ Note the `'{"title": "My New Movie"}'` JSON object we're passing to the
 database. You can populate this object with your own additional properties, like
 the writer, director, runtime, countries, etc.:
 
-``` shell
+```
 curl -X POST -H "Content-Type: application/json" -d '{"title": "Metropolis", "Director": Fritz Lang", "Writer": "Thea von Harbou"}' http://localhost:5000/movies
 ```
 
@@ -87,7 +87,7 @@ To be added, your movie **must have a title.**
 you would like to add to the `/movies` route with the `_id` of your movie 
 specified at the end of the URI:
 
-``` shell
+```
 curl -X PUT -H "Content-Type: application/json" -d '{"field": "updated value"}' http://localhost:5000/movies/62d3359d0599ca59d923940e
 ```
 
@@ -103,7 +103,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{"field": "updated value"}' 
 To **delete a movie**, send a `DELETE` request with the movie's `_id` appended 
 to the `/movies` route:
 
-``` shell
+```
 curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 ```
 
