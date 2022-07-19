@@ -10,7 +10,8 @@ module.exports.getAll = async () => {
     const movies = database.collection('movies');
 
     const query = {};
-    let movieCursor = await movies.find(query).limit(10).project({title: 1});
+    const mysort = {title: -1};
+    let movieCursor = await movies.find(query).limit(10).project({title: 1}).sort(mysort);
     return movieCursor.toArray();
 }
 
