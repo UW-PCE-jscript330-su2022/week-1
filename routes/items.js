@@ -29,12 +29,12 @@ router.post("/", (req, res, next) => {
 
 router.put("/:id", (req, res, next) => {
   itemData.updateById(req.params.id, req.body);
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 router.delete("/:id", (req, res, next) => {
   itemData.deleteById(req.params.id);
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 module.exports = router;

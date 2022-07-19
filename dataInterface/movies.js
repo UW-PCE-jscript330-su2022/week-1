@@ -12,12 +12,10 @@ const client = new MongoClient(uri);
 const databaseName = "sample_mflix";
 const colName = "movies";
 
-const msgMovie = (movie) => {
-  return movie;
-}
-
 module.exports = {};
 
+// getAll //////////////////////////////////////////////////////////////////////
+// Returns an array of all movies (limited to 10).
 module.exports.getAll = async () => {
   const database = client.db(databaseName);
   const movies = database.collection(colName);
@@ -32,16 +30,28 @@ module.exports.getAll = async () => {
   return moviesCursor.toArray();
 }
 
+// getById /////////////////////////////////////////////////////////////////////
+// Given a valid `movieId`,
+// Returns a `movie` with the same `movieId`.
 module.exports.getById = async (movieId) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(colName);
-  const query = {_id: ObjectId(movieId)};
-  // `findOne(query)` returns single entry given `query`.
-  let movie = await movies.findOne(query);
-  console.log(msgMovie(movie));
-  return movie;
+  if (!ObjectId.isValid(movieId)) {
+    return { 
+      status: 400
+    }
+  } else {
+    const database = client.db(databaseName);
+    const movies = database.collection(colName);
+    const query = {_id: ObjectId(movieId)};
+    // `findOne(query)` returns single entry given `query`.
+    let movie = await movies.findOne(query);
+    return movie;
+  }
 }
 
+// getByTitle //////////////////////////////////////////////////////////////////
+// Given a valid `movieTitle`,
+// Returns an array of all movies (limited to 10) with titles matching the 
+// `movieTitle`.
 module.exports.getByTitle = async (movieTitle) => {
   const database = client.db(databaseName);
   const movies = database.collection(colName);
@@ -50,26 +60,46 @@ module.exports.getByTitle = async (movieTitle) => {
   return moviesCursor.toArray();
 }
 
+// deleteById //////////////////////////////////////////////////////////////////
+// Given a valid `movieId`,
+// Deletes the movie with the same `movieId`.
 module.exports.deleteById = async (movieId) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(colName);
-  return [];
+  if (!ObjectId.isValid(movieId)) {
+    return { 
+      status: 400
+    }
+  } else {
+    const database = client.db(databaseName);
+    const movies = database.collection(colName);
+    const query = {_id: ObjectId(movieId)};
+    const result = await movies.deleteOne(query);
+    return result;
+  }
 }
 
+// updateById //////////////////////////////////////////////////////////////////
+// Given a valid `movieId` and a `newObj`,
+// Updates the movie with the same `movieId` with the properties in `newObj`.
 module.exports.updateById = async (movieId, newObj) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(colName);
-  return [];
+  if (!ObjectId.isValid(movieId)) {
+    return {
+      status: 400
+    }
+  } else {
+    const database = client.db(databaseName);
+    const movies = database.collection(colName);
+    const query = {_id: ObjectId(movieId)};
+    const result = await movies.updateOne(query, {$set: newObj});
+    return result;
+  }
 }
 
+// create //////////////////////////////////////////////////////////////////////
+// Given `newObj`,
+// Adds `newObj` to the movie database.
 module.exports.create = async (newObj) => {
   const database = client.db(databaseName);
   const movies = database.collection(colName);
   const result = await movies.insertOne(newObj);
-  // console.log(result);
-  if (result.acknowledged) {
-    return { newObjectId: result.insertedId, message: `Item created! ID: ${result.insertedId}` };
-  } else {
-    return { message: "🛆 Error: Item not created." };
-  }
+  return result;
 }
