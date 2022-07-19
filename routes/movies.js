@@ -13,7 +13,6 @@ router.get("/", async (req, res, next) => {
 
 // curl http://localhost:5000/movies/573a1394f29313caabcdf639
 router.get("/:id", async (req, res, next) => {
-  console.log(req.params.id)
   const theMovie = await movieData.getById(req.params.id)
   if(theMovie){
     res.status(200).send(theMovie)
@@ -46,7 +45,7 @@ router.get("/title/:title/year/:year", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   let result = await movieData.create(req.body);
   // TODO: if !result.newObjId send something different
-  if(result.newObjId){
+  if(result.message !== "ERROR"){
     res.status(200).send(result)
   } else {
     res.status(500).send({ error: `Unable to create document` });

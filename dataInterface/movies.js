@@ -26,16 +26,17 @@ module.exports.getAll = async () => {
 
 // https://www.mongodb.com/docs/drivers/node/current/usage-examples/findOne/
 module.exports.getById = async (movieId) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(collName);
-  let movie;
-
   if (movieId.length === 24) {
-    const query = {_id: ObjectId(movieId)};
-    movie = await movies.findOne(query);
-  }
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
 
-  return movie;
+    const query = {_id: ObjectId(movieId)};
+    let movie = await movies.findOne(query);
+
+    return movie;
+  } else {
+    return null;
+  }
 }
 
 // https://www.mongodb.com/docs/drivers/node/current/usage-examples/findOne/
@@ -62,25 +63,34 @@ module.exports.getByTitleAndYear = async ( movieTitle, movieYear ) => {
 
 // https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/delete/
 module.exports.deleteById = async (movieId) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(collName);
+  if (movieId.length === 24) {
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
 
-  const deletionDoc = {_id:ObjectId(movieId)}
-  const deleteResult = await movies.deleteOne(deletionDoc);
+    const deletionDoc = {_id:ObjectId(movieId)}
+    const deleteResult = await movies.deleteOne(deletionDoc);
 
-  return {message: `DELETED ${deleteResult.deletedCount} movies`};
+    return {message: `DELETED ${deleteResult.deletedCount} movies`};
+  } else {
+    return null;
+  }
 }
 
 // https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/change-a-document/
 module.exports.updateById = async (movieId, newObj) => {
-  const database = client.db(databaseName);
-  const movies = database.collection(collName);
+  if (movieId.length === 24) {
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
 
-  const updateDoc = { $set: {"title" : newObj.title} }
-  const filter = { _id: ObjectId(movieId) };
-  const result = await movies.updateOne(filter, updateDoc);
+    const updateDoc = { $set: {"title" : newObj.title} }
+    const filter = { _id: ObjectId(movieId) };
+    const result = await movies.updateOne(filter, updateDoc);
 
-  return {message: `UPDATED ${result.modifiedCount} movies`};
+    return {message: `UPDATED ${result.modifiedCount} movies`};
+  } else {
+    return null;
+  }
+  
 }
 
 // https://www.mongodb.com/docs/v4.4/tutorial/insert-documents/
