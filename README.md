@@ -1,3 +1,5 @@
+{::options parse_block_html="true" /}
+
 # JSCRIPT-330-Wk-2
 
 1. Install the necessary dependencies: `npm install`
@@ -115,3 +117,5 @@ curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
   ```
   </p>
 </details>
+
+{::options parse_block_html="false" /}
