@@ -1,5 +1,3 @@
-{::options parse_block_html="true" /}
-
 # JSCRIPT-330-Wk-2
 
 1. Install the necessary dependencies: `npm install`
@@ -108,6 +106,8 @@ to the `/movies` route:
 ``` shell
 curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 ```
+
+{::options parse_block_html="true" /}
 
 <details>
   <summary>Example response</summary>
