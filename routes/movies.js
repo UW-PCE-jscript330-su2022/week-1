@@ -5,26 +5,25 @@ const movieData = require('../dataInterface/movies');
 
 // curl -sS http://localhost:5000/movies
 router.get("/", async (req, res, next) => {
-    let movieList = await movieData.getAll() 
+    let movieList = await movieData.getAll()
     res.status(200).send(movieList)
 });
 
-// curl -sS http://localhost:5000/movies/Titanic
-router.get("/:title", async (req, res, next) => {
+// curl -sS http://localhost:5000/movies/titles/Titanic
+router.get("/titles/:title", async (req, res, next) => {
     let movieTitle = await movieData.getByTitle(req.params.title) 
     res.status(200).send(movieTitle)
-
-
 });
 
-// curl -sS http://localhost:5000/movies/573a13d2f29313caabd935eb
-router.get("/:id", (req, res, next) => {
-    const theMovie = movieData.getById(req.params.id)
-    if (theMovie) {
+// curl -sS http://localhost:5000/movies/3
+router.get("/:id", async (req, res, next) => {
+    const theMovie = await movieData.getById(req.params.id)
+    if(theMovie) {
         res.status(200).send(theMovie)
     } else {
-        res.status(404).send({ error: `no item found with id ${req.params.id}` });
+        res.status(404).send({error: `no movie found with id ${req.params.id}`});
     }
+
 });
 
 // curl -sS -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5000/movies

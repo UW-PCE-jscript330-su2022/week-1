@@ -1,4 +1,6 @@
-const { MongoClient } = require("mongodb");
+const {
+    MongoClient
+} = require("mongodb");
 const ObjectId = require('mongodb').ObjectId;
 
 
@@ -19,53 +21,50 @@ module.exports.getAll = async () => {
     const movies = database.collection(collName);
 
     const query = {};
-    let movieCursor = await movies.find(query).limit(10).sort({ "lastupdated": 1 });
-    return movieCursor.toArray();
-}
-
-// find movies with the title Titanic
-module.exports.getByTitle = async (title) => {
-    const database = client.db(databaseName);
-    const movies = database.collection(collName);
-
-    const query = { "title": "Titanic" };
-    let movieTitle = await movies.find(query);
-    if (movieTitle) {
-        return movieTitle.toArray();
+    let movieCursor = await movies.find(query).limit(10).sort({
+        lastupdated:1
+    }).project({title:1,lastupdated:1 });
+    if (movieCursor) {
+        return movieCursor.toArray();
     } else {
-        return { message: `no movie found with that title` };
+        return {
+            message: `no movie data found`
+        };
     }
 }
 
-// module.exports.getById = async (movieId) => {
-//     const database = client.db(databaseName);
-//     const movies = database.collection(collName);
-
-//     const query = {title:"Titanic"};
-//     let movie = await movies.find(query);
-//     console.log("MOVIE: ", movie);
-//     return movie;
-// }
-
-// module.exports.getById = async (movieId) => {
-//     const database = client.db(databaseName);
-//     const movies = database.collection(collName);
-
-//     const query = {};
-//     let movie = await movies.findOne(query);
-//     console.log("MOVIE: ", movie);
-//     return movie;
-// }
-
-module.exports.getById = async (movieId) => {
+// find movies with the title Titanic
+module.exports.getByTitle = async () => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
 
-    const query = { _id: ObjectId(movieId) };
-    let movie = await movies.find(query);
+    const query = {
+        "title": "Titanic"
+    };
+
+    let movieTitle = await movies.find(query);
+    if (movieTitle) {
+        console.log("MOVIE: ", movieTitle);
+        return movieTitle.toArray();
+    } else {
+        return {
+            message: `no movie found with that title`
+        };
+    }
+}
+
+
+// find one movie record with a specified id
+module.exports.getById = async () => {
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
+
+    const query = {title: "Titanic"};
+    let movie = await movies.findOne(query);
     console.log("MOVIE: ", movie);
     return movie;
 }
+
 
 module.exports.deleteById = (movieId) => {
     const database = client.db(databaseName);
@@ -88,8 +87,13 @@ module.exports.create = async (newObj) => {
 
 
     if (result.acknowledged) {
-        return { newObjectId: result.insertedId, message: `Item created! ID: ${result.insertedId}` }
+        return {
+            newObjectId: result.insertedId,
+            message: `Item created! ID: ${result.insertedId}`
+        }
     } else {
-        return { message: "ERROR" }
+        return {
+            message: "ERROR"
+        }
     }
 }
