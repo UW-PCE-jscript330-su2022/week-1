@@ -10,7 +10,6 @@ const collName = 'movies'
 
 module.exports = {}
 
-// HOMEWORK TODO: add a getByTitle function
 module.exports.getByTitle = async () => {
   const database = client.db(databaseName);
   const movies = database.collection(collName);
@@ -52,10 +51,18 @@ module.exports.deleteById = async (movieId) => {
   const database = client.db(databaseName);
   const movies = database.collection(collName);
 
-  const deletionDoc = {_id:ObjectId(movieId)}
-  const deleteResult = await movies.deleteOne(deletionDoc);
+  const query = { _id: ObjectId(movieId) };
+  const deletedMovie = await movies.deleteOne(query);
 
-  return {message: `DELETED ${deleteResult.deletedCount} movies`}
+  console.log(deletedMovie)
+
+  if (deletedMovie.acknowledged) {
+      return { message: `${ObjectId(movieId)} was deleted.` }
+  } else {
+      return {
+          message: "ERROR - the object was not deleted"
+      };
+  }
 }
 
 // https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/change-a-document/
@@ -63,11 +70,19 @@ module.exports.updateById = async (movieId, newObj) => {
   const database = client.db(databaseName);
   const movies = database.collection(collName);
 
-  const updateDoc = { $set: {"title" : newObj.title} }
   const filter = { _id: ObjectId(movieId) };
-  const result = await movies.updateOne(filter, updateDoc);
+  const update = { $set: { "movies.plot": newObj.plot } }
+  const updatedMovie = await movies.updateOne(filter, update);
 
-  return {message: `UPDATED ${result.modifiedCount} movies`}
+  console.log(updatedMovie)
+
+  if (updatedMovie.acknowledged) {
+      return { message: `${ObjectId(movieId)} has been updated.` }
+  } else {
+      return {
+          message: "ERROR - the object was not updated"
+      };
+  }
 }
 
 // https://www.mongodb.com/docs/v4.4/tutorial/insert-documents/
