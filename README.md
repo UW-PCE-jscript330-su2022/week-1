@@ -1,67 +1,114 @@
-# Week 1
+# Week 2 API
 
-This week is an introduction to Node.js, Express, and unit testing with Jest. The focus of this week will be on getting comfortable with the development environment, tools, and best practices in back-end development.
+### Get All the Movies 
 
-## Learning Objectives
+To Return all the movies, this uses the GET method.
 
-At the end of this week, a student should:
-- be able to navigate an Express API and understand what it does
-- know how to run a local Express server and test its endpoints manually
-- be comfortable reading and working with unit tests
-- be able to build a simple in-memory REST API
+Example command use: ` curl http://localhost:5000/movies`
 
-## The assignment
+This returns a list of all the movies in the database. Currently this list is limited to 10 entries per page and is sorted in order of title
 
-The assignment this week is designed to get you comfortable working in an Express server. It is meant to get you aquainted with a project of the type we will be working in during this course. It contains a simple set of REST endpoints for a generic data type (`items`). You will complete the code for this REST API to meet the requirements as defined in the test suite.
+Status Codes:
 
-### Getting started
+200 -> All Okay, returns list of movies limited to 10 entries per page and is sorted in order of title
 
-1. Make sure you have a recent version of [Node.js](https://nodejs.org/en/download/) installed on your computer. I am using Node v16.15, but anything above 14 will be fine.
-2. Ensure you have git and github set up on your computer. If you do not, please follow this guide: https://help.github.com/en/github/getting-started-with-github.
-3. Fork this repository and clone it locally. 
-4. In your terminal, from inside this project directory, run `npm install` to install the project dependencies.
-5. Run `npm start` to start your local server. You should see a logged statement telling you `Server is listening on http://localhost:5000`.
-6. Use curl or API client of your choice to browse the various endpoints (8 in total) contained in this project. Practice calling all of them and getting 200 HTTP responses.
-7. Run the unit tests of this project: `npm test`. Your test output should end in something like this:
-```
-Test Suites: 1 failed, 1 total
-Tests:       7 failed, 2 passed, 9 total
-```
+404 -> Movie database not found
 
-This API has five routes:
-```
-GET /items
-GET /items/:id
-POST /items
-PUT /items/:id
-DELTE /items/:id
-```
+### Get a Movie By ID
 
-Express documentation: http://expressjs.com
-Curl documentation: https://curl.se/docs/manpage.html
-Jest documentation: https://jestjs.io/
+To Return a single movie based on a unique ID number, this uses the GET method.
 
-*** Remember that changes to route handlers will not be reflected in responses until the server is restarted ***
+Example command use: ` curl http://localhost:5000/movies/573a139af29313caabcf0d74`
 
-### Your task
+result: `{"_id":"573a1394f29313caabcdf639","plot":"An unhappy married couple deal with their problems on board the ill-fated ship.","genres":["Drama","History","Romance"],"runtime":98,"rated":"NOT RATED","cast":["Clifton Webb","Barbara Stanwyck","Robert Wagner","Audrey Dalton"],"num_mflix_comments":0,"poster":"https://m.media-amazon.com/images/M/MV5BMTU3NTUyMTc3Nl5BMl5BanBnXkFtZTgwOTA2MDE3MTE@._V1_SY1000_SX677_AL_.jpg","title":"Titanic","fullplot":"Unhappily married and uncomfortable with life among the British upper crust, Julia Sturges takes her two children and boards the Titanic for America. Her husband Richard also arranges passage on the doomed luxury liner in order to let him have custody of their two children. Their problems soon seem minor when the ship hits an iceberg.","languages":["English","Basque","French","Spanish"],"released":"1953-07-13T00:00:00.000Z","directors":["Jean Negulesco"],"writers":["Charles Brackett","Walter Reisch","Richard L. Breen"],"awards":{"wins":0,"nominations":3,"text":"Won 1 Oscar. Another 2 nominations."},"lastupdated":"2015-09-16 00:00:16.593000000","year":1953,"imdb":{"rating":7.3,"votes":4677,"id":46435},"countries":["USA"],"type":"movie","tomatoes":{"viewer":{"rating":3.6,"numReviews":86400,"meter":65},"dvd":"2003-09-02T00:00:00.000Z","critic":{"rating":6.7,"numReviews":9,"meter":89},"lastUpdated":"2015-09-10T19:15:34.000Z","rotten":1,"production":"20th Century Fox","fresh":8}}% `
 
-As you can see, there is a simple set of unit tests (routes/items.test.js) for this project's routes. However, the routes have not been fully implemented yet. Your task is to implement the route definitions (in routes/items.js) and data interface functions (in dataInterface/items.js) necessary to get all the tests to pass.  The tests define the requirements, read the test file thoroughly. To get full credit for this assignment, all the tests must pass without any changes to routes/items.test.js.
+to find a movie by a unique ID, type the ID after the `movies/` in the path. For this database, all unique ID numbers are 24 character. If the ID does not match it will retrun an error. 
 
-### Grading
 
-Rubric:
+Status Codes:
 
-Component | Points
---------- | --------
-All tests, as originally written, are passing | 50
-Newly written code is valid javascript that runs without errors | 35
-Newly written code is sensible | 15
+200 -> All Okay, returns a single movie that matches the entered unique ID 
 
-Extra credit:
+404 -> Error, No movie with that ID found
 
-For 10 extra points, add a new test to items.test.js. It may be for an existing piece of API functionality or something that requires additional code in the data interface or routes files. Ideas: What happens when a delete request is made with an invalid id parameter? What happens when a post or put request is made with no data in the "field" parameter?
+### Get a Movie(s) By Title
 
-### Submission
+To Return a movie or movies based on title, this uses the GET method.
 
-- Create a pull request (PR) from your repository to the main branch of this repository with a title of your name.
-- Continuous Integration is handled using Github Actions. This will automatically run your tests and show the results on your PR. If you see a red X and a message saying `All checks have failed` then you will not receive full credit. Ensure all tests are passing in order to receive full marks.
+Example command use: ` curl http://localhost:5000/movies/titles/zoot%20suit`
+
+Result: `[{"_id":"573a1397f29313caabce821b","plot":"A kind of musical accompanying the story of the early 1940's and the effect that the \"zoot suit\" (a man's suit of long jacket and pegged pants, always worn with a long keychain that looped ...","genres":["Drama","Musical"],"runtime":103,"rated":"R","cast":["Daniel Valdez","Edward James Olmos","Charles Aidman","Tyne Daly"],"poster":"https://m.media-amazon.com/images/M/MV5BMGY3OTMzNTgtMDNhNC00OGM4LTliZTUtZWZkYWI3ODIxMDZlXkEyXkFqcGdeQXVyMjA0MzYwMDY@._V1_SY1000_SX677_AL_.jpg","title":"Zoot Suit","fullplot":"A kind of musical accompanying the story of the early 1940's and the effect that the \"zoot suit\" (a man's suit of long jacket and pegged pants, always worn with a long keychain that looped almost to the ankle.... the rebellious fashion of young men) had on the morals and attitudes of the people of that era.","languages":["English"],"released":"1982-01-01T00:00:00.000Z","directors":["Luis Valdez"],"writers":["Luis Valdez (play)"],"awards":{"wins":2,"nominations":0,"text":"Nominated for 1 Golden Globe. Another 1 win."},"lastupdated":"2015-07-31 00:03:02.097000000","year":1981,"imdb":{"rating":6.7,"votes":788,"id":83365},"countries":["USA"],"type":"movie","tomatoes":{"viewer":{"rating":3.8,"numReviews":1166,"meter":75},"dvd":"2003-05-27T00:00:00.000Z","production":"MCA Universal Home Video","lastUpdated":"2015-08-17T18:28:10.000Z"},"num_mflix_comments":0}]`
+
+to find a movie or movies by a title query, type the title after the `movies/` in the path. For this database, the title is not case sensitive. 
+
+If the title contains any spaces, ensure to use `%20` in lieu of a space (such as the example above)
+
+If there are multiple matches for the title given, the results will return mutiple entries.
+
+
+Status Codes:
+
+200 -> All Okay, returns movie or movies that match the title given 
+
+404 -> Error, No movie with that title found
+
+### Create a New Movie Entry 
+
+
+To create a new movie in the database, this uses the POST method.
+
+Example command use: ` curl -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5000/movies`
+
+result: `{"message":"Success! Item with a new ID of: 62d5e449068bda8b86c95126 has been created"}`
+
+Using the command, insert your new title in the `"NEW TITLE"` part of the command. This will add your new movie to the database and will generate a sequentially new unique ID# for your new entry
+
+
+Status Codes:
+
+201 -> All Okay, your movie has been created
+
+400 -> Error, movie cannot be created 
+
+
+### Update an Existing Movie Entry 
+
+
+To update an existing movie in the database, this uses the POST method.
+
+Example command use: ` curl -X PUT -H "Content-Type: application/json" -d '{"TomatometerScore":"yourValue%"}' http://localhost:5000/movies/573a139af29313caabcf0d74`
+
+result: `Success! Movie with the ID# of 573a139af29313caabcf0d74 now has an Updated field`
+
+This command will add a Rotten Tomatoes TomatometerScore entry to an existing movie. Insert the score you'd like to assign in the `yourValue%` part of the command. In addition be sure to include the unique ID of the movie you are trying to uodate at the end of the command after the `movies/` part of the path.
+
+ This will add your new value to the movie in database.
+
+
+Status Codes:
+
+201 -> All Okay, your movie has been updated
+
+400 -> Error, movie cannot be updated
+
+
+### Delete an Existing Movie Entry 
+
+
+To delete an existing movie in the database, this uses the DELETE method.
+
+Example command use: `curl -X DELETE http://localhost:5000/movies/573a139af29313caabcf0d74`
+
+result: `Success! Movie with the ID# of 573a139af29313caabcf0d74 has been deleted`
+
+This command will delete a movie based on the unique ID you pass, type the ID after the `movies/` in the path. For this database, all unique ID numbers are 24 character. If the ID does not match it will retrun an error. 
+
+
+ This will delete the movie with the matching ID from the database.
+
+
+Status Codes:
+
+201 -> All Okay, your movie has been deleted
+
+400 -> Error, movie cannot be deleted
