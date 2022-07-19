@@ -37,6 +37,50 @@ PUT /items/:id
 DELTE /items/:id
 ```
 
+This movie API has five routes:
+```
+GET /movies
+GET /movies/:id
+GET /movies/title/:title
+POST /movies
+PUT /movies/:id
+DELTE /movies/:id
+```
+Example Curl statements to hit each route:
+```
+1. Get all movies sorted by title ascendingly: curl http://localhost:5000/movies
+
+2. Get a movie by Id: curl http://localhost:5000/movies/573a1394f29313caabcdf639
+
+3. Get a movie(s) by title:
+    curl http://localhost:5000/movies/title/Titanic
+    curl http://localhost:5000/movies/title/Back%20to%20the%20Future
+
+    An error response when giving a wrong movie title is listed as follows:
+    ----
+    C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1>curl http://localhost:5000/movies/title/Back%20%To%20The%20Future
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Error</title>
+    </head>
+    <body>
+    <pre>URIError: Failed to decode param &#39;Back%20%To%20The%20Future&#39;<br> &nbsp; &nbsp;at decodeURIComponent (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at decode_param (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\layer.js:172:12)<br> &nbsp; &nbsp;at Layer.match (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\layer.js:148:15)<br> &nbsp; &nbsp;at matchLayer (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:574:18)<br> &nbsp; &nbsp;at next (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:220:15)<br> &nbsp; &nbsp;at Function.handle (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:174:3)<br> &nbsp; &nbsp;at router (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:47:12)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:317:13)<br> &nbsp; &nbsp;at C:\Personal\PEMCO\Certificate Programs\Fullstack JS Certificate 330B\Assignments\week-1\week-1\node_modules\express\lib\router\index.js:284:7</pre>
+    </body>
+    </html>
+    ----
+4. Create a new movie: 
+curl -X POST -H "Content-Type: application/json" -d "{ \"title\": \"new title\" }" "http://localhost:5000/movies"
+
+5. Update a movie by id:
+curl -X PUT -H "Content-Type: application/json" -d "{ \"title\": \"new title again\" }" "http://localhost:5000/movies/62ce40898d272992fae9bbb2"
+
+6. Delete a move by id:
+curl -X DELETE http://localhost:5000/movies/62ce40898d272992fae9bbb2
+
+```
+
 Express documentation: http://expressjs.com
 Curl documentation: https://curl.se/docs/manpage.html
 Jest documentation: https://jestjs.io/
