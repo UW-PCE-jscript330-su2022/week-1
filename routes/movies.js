@@ -17,11 +17,10 @@ router.get("/", async (req, res, next) => {
 // curl -sS http://localhost:5000/movies/titles/Titanic
 router.get("/titles/:title", async (req, res, next) => {
     let movieTitle = await movieData.getByTitle(req.params.title)
-    res.status(200).send(movieTitle)
     if (movieTitle) {
         res.status(200).send(movieTitle)
     } else {
-        res.status(404).send(movieTitle.message);
+        res.status(404).send({ error: `no item found with title ${req.params.title}` });
     }
     next()
 });
@@ -32,7 +31,7 @@ router.get("/:id", async (req, res, next) => {
     if (theMovie) {
         res.status(200).send(theMovie)
     } else {
-        res.status(404).send(theMovie.message);
+        res.status(404).send({ error: `no item found with id ${req.params.id}` });
     }
     next()
 });
@@ -48,14 +47,14 @@ router.post("/", async (req, res, next) => {
     next()
 });
 
-// curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/62d66a318d0640b93ccfe807
+// curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/62d6f0f0d63bf47f8bec31c2
 router.put("/:id", async (req, res, next) => {
     let updatedList = await movieData.updateById(req.params.id, req.body)
     res.status(200).send(updatedList)
     next()
   });
   
-  // curl -sS -X DELETE http://localhost:5000/movies/62d656ea294d70923bfa39d3
+  // curl -sS -X DELETE http://localhost:5000/movies/62d6f0f0d63bf47f8bec31c2
   router.delete("/:id", async (req, res, next) => {
     const result = await movieData.deleteById(req.params.id)
     res.status(200).send(result)

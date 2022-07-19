@@ -1,4 +1,4 @@
-const { MongoClient} = require("mongodb");
+const { MongoClient } = require("mongodb");
 const ObjectId = require('mongodb').ObjectId;
 
 const uri =
@@ -49,10 +49,6 @@ module.exports.getByTitle = async () => {
 
     if (movieTitle) {
         return movieTitle.toArray();
-    } else {
-        return {
-            message: `no movie found with the title ${movieTitle.title}`
-        };
     }
 }
 
@@ -67,11 +63,6 @@ module.exports.getById = async (movieId) => {
 
     if (movie) {
         return movie;
-    } else {
-        return {
-            message: `no movie found with id ${ObjectId(movieId)}`
-        };
-
     }
 }
 
@@ -88,10 +79,6 @@ module.exports.create = async (newObj) => {
         return {
             newObjectId: result.insertedId,
             message: `Item created! ID: ${result.insertedId}`
-        }
-    } else {
-        return {
-            message: "ERROR - a new object was not loaded"
         }
     }
 }
@@ -120,7 +107,7 @@ module.exports.deleteById = async (movieId) => {
 module.exports.updateById = async (movieId, newObj) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
-   
+
     const filter = { _id: ObjectId(movieId) };
     const update = { $set: { "movies.plot": newObj.plot } }
     const updatedMovie = await movies.updateOne(filter, update);
