@@ -11,13 +11,24 @@ router.get("/", async (req, res, next) => {
   res.status(200).send(movieList)
 });
 
-// curl http://localhost:5000/movies/573a1390f29313caabcd4135
+// curl http://localhost:5000/movies/573a1394f29313caabcdf639
 router.get("/:id", async (req, res, next) => {
+  console.log(req.params.id)
   const theMovie = await movieData.getById(req.params.id)
   if(theMovie){
     res.status(200).send(theMovie)
   } else {
     res.status(404).send({ error: `no item found with id ${req.params.id}` });
+  }
+});
+
+// curl http://localhost:5000/movies/title/Titanic
+router.get("/title/:title", async (req, res, next) => {
+  const theMovie = await movieData.getByTitle(req.params.title)
+  if(theMovie){
+    res.status(200).send(theMovie)
+  } else {
+    res.status(404).send({ error: `no item found with id ${req.params.title}` });
   }
 });
 
