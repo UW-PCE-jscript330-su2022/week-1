@@ -39,7 +39,7 @@ curl http://localhost:5000/movies/573a13e6f29313caabdc56c7
   ```
   → {"_id":"573a13e6f29313caabdc56c7","plot":"From her childhood bedroom in the Chicago suburbs, an American teenage girl uses social media to run the revolution in Syria. Armed with Facebook, Twitter, Skype and cameraphones, she helps...","genres":["Documentary","Action","Drama"],"runtime":74,"title":"#chicagoGirl: The Social Network Takes on a Dictator","poster":"https://m.media-amazon.com/images/M/MV5BMTgwODIxMjM3NV5BMl5BanBnXkFtZTgwMzYzODA2NjE@._V1_SY1000_SX677_AL_.jpg","countries":["USA","Syria"],"fullplot":"From her childhood bedroom in the Chicago suburbs, an American teenage girl uses social media to run the revolution in Syria. Armed with Facebook, Twitter, Skype and cameraphones, she helps her social network in Damascus and Homs braves snipers and shelling in the streets and the world the human rights atrocities of one of the most brutal dictators. But as the revolution rages on, everyone in the network must decide what is the most effective way to fight a dictator: social media or AK-47s.","languages":["English"],"released":"2014-05-18T00:00:00.000Z","directors":["Joe Piscatella"],"writers":["Joe Piscatella"],"awards":{"wins":2,"nominations":2,"text":"2 wins & 2 nominations."},"lastupdated":"2015-09-01 00:08:44.710000000","year":2013,"imdb":{"rating":7.1,"votes":77,"id":3060338},"type":"movie","tomatoes":{"viewer":{"rating":4.5,"numReviews":4},"lastUpdated":"2015-09-10T19:14:36.000Z"},"num_mflix_comments":0}
   ```
-<details>
+</details>
 
 Get a movie **by title** by appending the movie's `title` to the `/movies/title` route:
 
