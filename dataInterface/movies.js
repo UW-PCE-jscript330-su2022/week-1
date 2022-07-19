@@ -28,9 +28,12 @@ module.exports.getAll = async () => {
 module.exports.getById = async (movieId) => {
   const database = client.db(databaseName);
   const movies = database.collection(collName);
+  let movie;
 
-  const query = {_id: ObjectId(movieId)};
-  let movie = await movies.findOne(query);
+  if (movieId.length === 24) {
+    const query = {_id: ObjectId(movieId)};
+    movie = await movies.findOne(query);
+  }
 
   return movie;
 }
@@ -44,6 +47,17 @@ module.exports.getByTitle = async (movieTitle) => {
   let movie = await movies.findOne(query);
 
   return movie;
+}
+
+// https://www.mongodb.com/docs/drivers/node/current/usage-examples/findOne/
+module.exports.getByTitleAndYear = async ( movieTitle, movieYear ) => {
+  const database = client.db(databaseName);
+  const movies = database.collection(collName);
+
+  const query = { title: movieTitle, year: movieYear };
+  let movie = await movies.find(query);
+
+  return movie.toArray();
 }
 
 // https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/write-operations/delete/

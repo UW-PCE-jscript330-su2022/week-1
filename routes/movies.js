@@ -18,7 +18,7 @@ router.get("/:id", async (req, res, next) => {
   if(theMovie){
     res.status(200).send(theMovie)
   } else {
-    res.status(404).send({ error: `no item found with id ${req.params.id}` });
+    res.status(404).send({ error: `no movie found with id ${req.params.id}` });
   }
 });
 
@@ -28,7 +28,17 @@ router.get("/title/:title", async (req, res, next) => {
   if(theMovie){
     res.status(200).send(theMovie)
   } else {
-    res.status(404).send({ error: `no item found with id ${req.params.title}` });
+    res.status(404).send({ error: `no movie found with title ${req.params.title}` });
+  }
+});
+
+// curl http://localhost:5000/movies/title/Titanic/year/1953
+router.get("/title/:title/year/:year", async (req, res, next) => {
+  const theMovie = await movieData.getByTitleAndYear(req.params.title, parseInt(req.params.year))
+  if(theMovie){
+    res.status(200).send(theMovie)
+  } else {
+    res.status(404).send({ error: `no movie found with title ${req.params.title} and year ${req.params.year}` });
   }
 });
 
@@ -36,19 +46,31 @@ router.get("/title/:title", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   let result = await movieData.create(req.body);
   // TODO: if !result.newObjId send something different
-  res.status(200).send(result);
+  if(result.newObjId){
+    res.status(200).send(result)
+  } else {
+    res.status(404).send({ error: `Unable to create document` });
+  }
 });
 
 // curl -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/573a1390f29313caabcd42e8
 router.put("/:id", async (req, res, next) => {
   let updatedList = await movieData.updateById(req.params.id, req.body)
-  res.status(200).send(updatedList)
+  if(updatedList){
+    res.status(200).send(updatedList)
+  } else {
+    res.status(404).send({ error: `Unable to find document` });
+  }
 });
 
 // curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 router.delete("/:id", async (req, res, next) => {
   const result = await movieData.deleteById(req.params.id)
-  res.status(200).send(result)
+  if(result){
+    res.status(200).send(result)
+  } else {
+    res.status(404).send({ error: `Unable to find document` });
+  }
 });
 
 module.exports = router;
