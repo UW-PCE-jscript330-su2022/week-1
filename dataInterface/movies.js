@@ -1,8 +1,5 @@
-const {
-    MongoClient
-} = require("mongodb");
+const { MongoClient} = require("mongodb");
 const ObjectId = require('mongodb').ObjectId;
-
 
 const uri =
     "mongodb+srv://cahilljm53:Mevin*80@cluster0.qlff5yn.mongodb.net/?retryWrites=true&w=majority"
@@ -22,13 +19,17 @@ module.exports.getAll = async () => {
 
     const query = {};
     let movieCursor = await movies.find(query).limit(10).sort({
-        lastupdated:1
-    }).project({title:1,lastupdated:1 });
+        lastupdated: 1
+    }).project({ title: 1, lastupdated: 1 });
+
+    console.log("MOVIE: ", movieCursor);
+
     if (movieCursor) {
+
         return movieCursor.toArray();
     } else {
         return {
-            message: `no movie data found`
+            message: `no movie data was found`
         };
     }
 }
@@ -43,12 +44,14 @@ module.exports.getByTitle = async () => {
     };
 
     let movieTitle = await movies.find(query);
+
+    console.log("MOVIE: ", movieTitle);
+
     if (movieTitle) {
-        console.log("MOVIE: ", movieTitle);
         return movieTitle.toArray();
     } else {
         return {
-            message: `no movie found with that title`
+            message: `no movie found with the title ${movieTitle.title}`
         };
     }
 }
@@ -58,34 +61,28 @@ module.exports.getById = async (movieId) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
 
-    const query = {_id: ObjectId(movieId)};
+    const query = { _id: ObjectId(movieId) };
     let movie = await movies.findOne(query);
     console.log("MOVIE: ", movie);
-    return movie;
+
+    if (movie) {
+        return movie;
+    } else {
+        return {
+            message: `no movie found with id ${ObjectId(movieId)}`
+        };
+
+    }
 }
 
-
-// delete by id
-module.exports.deleteById = (movieId) => {
-    const database = client.db(databaseName);
-    const movies = database.collection(collName);
-    return []
-}
-
-// update an object
-module.exports.updateById = (movieId, newObj) => {
-    const database = client.db(databaseName);
-    const movies = database.collection(collName);
-    return []
-}
-
+// insert a new object in the database
 module.exports.create = async (newObj) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
+
     const result = await movies.insertOne(newObj);
 
     console.log(result)
-
 
     if (result.acknowledged) {
         return {
@@ -94,7 +91,34 @@ module.exports.create = async (newObj) => {
         }
     } else {
         return {
-            message: "ERROR"
+            message: "ERROR - a new object was not loaded"
         }
     }
+}
+
+
+// delete by id
+module.exports.deleteById = async (movieId) => {
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
+
+    const query = { _id: ObjectId(movieId) };
+    const deletedMovie = await movies.deleteOne(query);
+
+    console.log(deletedMovie)
+
+    if (deletedMovie.acknowledged) {
+        return { message: `${ObjectId(movieId)} was deleted.` }
+    } else {
+        return {
+            message: "ERROR - the object was not deleted"
+        };
+    }
+}
+
+// update an object
+module.exports.updateById = (movieId, newObj) => {
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
+    return []
 }
