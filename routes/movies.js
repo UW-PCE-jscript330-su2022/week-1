@@ -19,6 +19,18 @@ router.get("/:id", async (req, res, next) => {
     res.status(404).send({ error: `no item found with id ${req.params.id}` });
   }
 });
+// curl http://localhost:5000/movies/title/Titanic
+// curl http://localhost:5000/movies/title/Back%20to%20the%20Future
+router.get("/title/:title", async (req, res, next) => {
+  const theMovie = await movieData.getByTitle(req.params.title)
+  console.log(req.params.title);
+  console.log(theMovie);
+  if(theMovie){
+    res.status(200).send(theMovie)
+  } else {
+    res.status(404).send({ error: `no item found with title ${req.params.title}` });
+  }
+});
 
 // curl -X POST -H "Content-Type: application/json" -d "{ \"title\": \"new title\" }" "http://localhost:5000/movies"
 router.post("/", async (req, res, next) => {

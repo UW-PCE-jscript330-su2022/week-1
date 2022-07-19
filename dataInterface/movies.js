@@ -26,6 +26,17 @@ module.exports.getById = async (movieId) => {
     return movie;
 }
 
+module.exports.getByTitle = async (ttl) => {
+    const database = client.db('sample_mflix');
+    const movies = database.collection('movies');
+
+    const query = {title: ttl};
+
+    let movie = await movies.findOne(query);
+
+    return movie;
+}
+
 module.exports.deleteById = (movieId) => {
     const database = client.db('sample_mflix');
     const movies = database.collection('movies');
