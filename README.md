@@ -1,67 +1,136 @@
-# Week 1
+----------------------------------------------------
+TITLE:  Movies API
+-----------------------------------------------------
+DESCRIPTION OF PROJECT
 
-This week is an introduction to Node.js, Express, and unit testing with Jest. The focus of this week will be on getting comfortable with the development environment, tools, and best practices in back-end development.
+This API uses different endpoints to manage data found in the sample_mflix.movies database collection provided by MongoDB.  Six endpoints have been created to allow a user to  create, read, update or delete data.  These endpoints are described below.  Each endpoint returns all data for the selected objects including:
 
-## Learning Objectives
+-----------------------------------------------------
+TECHNOLOGIES USED
+-----------------------------------------------------
+The following technologies were used in this project:
+-  Node.js
+-  NPM
+-  Express
+-  Mongo DB
+-----------------------------------------------------
+ENDPOINTS
+-----------------------------------------------------
+READ - Three endpoints have been created to allow a user to read data from the database colletion:
 
-At the end of this week, a student should:
-- be able to navigate an Express API and understand what it does
-- know how to run a local Express server and test its endpoints manually
-- be comfortable reading and working with unit tests
-- be able to build a simple in-memory REST API
+find all movies
+Example request:  curl -sS http://localhost:5001/movies
+Parameters:  limits data returned to 10 objects, returns id, title and lastupdated key:values
+Example results:  [
+            [{
+                "_id": "62ce40c1462229267a4ddac2",
+                "title": "NEW TITLE"
+            }, {
+                "_id": "573a13bcf29313caabd57d52",
+                "title": "Jimmy Rosenberg: The Father, the Son & the Talent",
+                "lastupdated": "2013-12-22 00:00:00"
+                }
+            ]
 
-## The assignment
 
-The assignment this week is designed to get you comfortable working in an Express server. It is meant to get you aquainted with a project of the type we will be working in during this course. It contains a simple set of REST endpoints for a generic data type (`items`). You will complete the code for this REST API to meet the requirements as defined in the test suite.
+find all movies with the title Titanic
+Example request: curl -sS http://localhost:5001/movies/titles/Titanic
+Parameters: title equals Titanic
+Example results:
+            [{
+                "_id": "573a1394f29313caabcdf639",
+                "plot": "An unhappy married couple deal with their problems on board the ill-fated ship.",
+                "genres": ["Drama", "History", "Romance"],
+                "runtime": 98,
+                "rated": "NOT RATED",
+                "cast": ["Clifton Webb", "Barbara Stanwyck", "Robert Wagner", "Audrey Dalton"],
+                "num_mflix_comments": 0,
+                "poster": "https://m.media-amazon.com/images/M/MV5BMTU3NTUyMTc3Nl5BMl5BanBnXkFtZTgwOTA2MDE3MTE@._V1_SY1000_SX677_AL_.jpg",
+                "title": "Titanic",
+                "fullplot": "Unhappily married and uncomfortable with life among the British upper crust, Julia Sturges takes her two children and boards the Titanic for America. Her husband Richard also arranges passage on the doomed luxury liner in order to let him have custody of their two children. Their problems soon seem minor when the ship hits an iceberg.",
+                "languages": ["English", "Basque", "French", "Spanish"],
+                "released": "1953-07-13T00:00:00.000Z",
+                "directors": ["Jean Negulesco"],
+                "writers": ["Charles Brackett", "Walter Reisch", "Richard L. Breen"],
+                "awards": {
+                    "wins": 0,
+                    "nominations": 3,
+                    "text": "Won 1 Oscar. Another 2 nominations."
+                },
+                "lastupdated": "2015-09-16 00:00:16.593000000",
+                "year": 1953,
+                "imdb": {
+                    "rating": 7.3,
+                    "votes": 4677,
+                    "id": 46435
+                },
+                "countries": ["USA"],
+                "type": "movie",
+                "tomatoes": {
+                    "viewer": {
+                        "rating": 3.6,
+                        "numReviews": 86400,
+                        "meter": 65
+                    },
+                    "dvd": "2003-09-02T00:00:00.000Z",
+                    "critic": {
+                        "rating": 6.7,
+                        "numReviews": 9,
+                        "meter": 89
+                    },
+                    "lastUpdated": "2015-09-10T19:15:34.000Z",
+                    "rotten": 1,
+                    "production": "20th Century Fox",
+                    "fresh": 8
+                }
+            }]
 
-### Getting started
 
-1. Make sure you have a recent version of [Node.js](https://nodejs.org/en/download/) installed on your computer. I am using Node v16.15, but anything above 14 will be fine.
-2. Ensure you have git and github set up on your computer. If you do not, please follow this guide: https://help.github.com/en/github/getting-started-with-github.
-3. Fork this repository and clone it locally. 
-4. In your terminal, from inside this project directory, run `npm install` to install the project dependencies.
-5. Run `npm start` to start your local server. You should see a logged statement telling you `Server is listening on http://localhost:5000`.
-6. Use curl or API client of your choice to browse the various endpoints (8 in total) contained in this project. Practice calling all of them and getting 200 HTTP responses.
-7. Run the unit tests of this project: `npm test`. Your test output should end in something like this:
-```
-Test Suites: 1 failed, 1 total
-Tests:       7 failed, 2 passed, 9 total
-```
+find a single move with a specified id
+Example request: curl -sS http://localhost:5001/movies/573a13bcf29313caabd57d52
+Parameters: Object id equals specified value
+Example results:
+            ["Documentary", "Music"], 
+            "runtime": 78, 
+            "cast": ["Jimmy Rosenberg"], 
+            "num_mflix_comments": 0, 
+            "title": "Jimmy Rosenberg: The Father, the Son & the Talent", 
+            "lastupdated": "2013-12-22 00:00:00", 
+            "languages": ["English", "Dutch"], 
+            "released": "2008-02-18T00:00:00.000Z", 
+            "directors": ["Jeroen Berkvens"], 
+            "writers": ["Jeroen Berkvens"], 
+            "awards": {
+                "wins": 2,
+                    "nominations": 0,
+                        "text": "2 wins."
+            }, "year": 2006, "imdb": {
+                "rating": 7.6,
+                    "votes": 87,
+                        "id": 986358
+            }, "type": "movie", "tomatoes": {
+                "viewer": {
+                    "rating": 2.5,
+                        "numReviews": 21
+                }
+            ]
 
-This API has five routes:
-```
-GET /items
-GET /items/:id
-POST /items
-PUT /items/:id
-DELTE /items/:id
-```
+-------------------------------------------------------
 
-Express documentation: http://expressjs.com
-Curl documentation: https://curl.se/docs/manpage.html
-Jest documentation: https://jestjs.io/
+CREATE
+Example request: curl -sS -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5001/movies
+Parameters:
+Example results:
 
-*** Remember that changes to route handlers will not be reflected in responses until the server is restarted ***
 
-### Your task
 
-As you can see, there is a simple set of unit tests (routes/items.test.js) for this project's routes. However, the routes have not been fully implemented yet. Your task is to implement the route definitions (in routes/items.js) and data interface functions (in dataInterface/items.js) necessary to get all the tests to pass.  The tests define the requirements, read the test file thoroughly. To get full credit for this assignment, all the tests must pass without any changes to routes/items.test.js.
+UPDATE
+Example request: 
+curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5001/movies/62d72a3f65117358ad62d268
+Parameters:
+Example results:
 
-### Grading
-
-Rubric:
-
-Component | Points
---------- | --------
-All tests, as originally written, are passing | 50
-Newly written code is valid javascript that runs without errors | 35
-Newly written code is sensible | 15
-
-Extra credit:
-
-For 10 extra points, add a new test to items.test.js. It may be for an existing piece of API functionality or something that requires additional code in the data interface or routes files. Ideas: What happens when a delete request is made with an invalid id parameter? What happens when a post or put request is made with no data in the "field" parameter?
-
-### Submission
-
-- Create a pull request (PR) from your repository to the main branch of this repository with a title of your name.
-- Continuous Integration is handled using Github Actions. This will automatically run your tests and show the results on your PR. If you see a red X and a message saying `All checks have failed` then you will not receive full credit. Ensure all tests are passing in order to receive full marks.
+DELETE
+Example request: curl -sS -X DELETE http://localhost:5001/movies/62d72a3f65117358ad62d268
+Parameters:
+Example results:

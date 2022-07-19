@@ -18,7 +18,7 @@ module.exports.getAll = async () => {
     const movies = database.collection(collName);
 
     const query = {};
-    let movieCursor = await movies.find(query).limit(10).sort({
+    let movieCursor = await movies.find(query).limit(30).sort({
         lastupdated: 1
     }).project({ title: 1, lastupdated: 1 });
 
