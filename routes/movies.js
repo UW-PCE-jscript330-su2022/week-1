@@ -48,7 +48,7 @@ router.post("/", async (req, res, next) => {
     next()
 });
 
-// curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/573a1390f29313caabcd42e8
+// curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/62d66a318d0640b93ccfe807
 router.put("/:id", async (req, res, next) => {
     let updatedList = await movieData.updateById(req.params.id, req.body)
     res.status(200).send(updatedList)

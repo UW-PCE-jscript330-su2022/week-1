@@ -117,8 +117,21 @@ module.exports.deleteById = async (movieId) => {
 }
 
 // update an object
-module.exports.updateById = (movieId, newObj) => {
+module.exports.updateById = async (movieId, newObj) => {
     const database = client.db(databaseName);
     const movies = database.collection(collName);
-    return []
+   
+    const filter = { _id: ObjectId(movieId) };
+    const update = { $set: { "movies.plot": newObj.plot } }
+    const updatedMovie = await movies.updateOne(filter, update);
+
+    console.log(updatedMovie)
+
+    if (updatedMovie.acknowledged) {
+        return { message: `${ObjectId(movieId)} has been updated.` }
+    } else {
+        return {
+            message: "ERROR - the object was not updated"
+        };
+    }
 }
