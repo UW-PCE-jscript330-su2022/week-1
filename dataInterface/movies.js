@@ -53,15 +53,41 @@ module.exports.getByTitle = async (movieTitle) => {
 
 module.exports.deleteById = async (movieId) => {
     const query = {_id: ObjectId(movieId) };
-    const movie = await movies.findOne(query);
-    return []
+    const deletionResponse = await movies.deleteOne(query); 
+
+    if (deletionResponse.acknowledged) {
+        return deletionResponse;
+    }
+    else { return null }
 }
 
-module.exports.updateById = (movieId, newObj) => {
+module.exports.updateById = async (movieId, newObj) => {
+    const updatedMovie = await movies.updateOne(
+        { _id: ObjectId(movieId) },
+        { $set: {field: newObj.field } }
+    );
+    
+    console.log(updatedMovie);
 
-    return []
+    if(updatedMovie.modifiedCount > 0) {
+        return updatedMovie;
+    }
+
+    else { return null }
 }
 
-module.exports.create = (newObj) => {
-    return {}
+module.exports.create = async (newObj) => {
+    const newMovie = {_id: new ObjectId(newObj._id)}        // Create new object
+    const existingMovie = await movies.findOne(newMovie)    // Check for duplicates
+    
+    if(existingMovie.acknowledged) {
+        // If movieId is found, then do not proceed.
+        // A statistical impossibility has occurred. 😢
+        return null
+    }
+
+    else {
+        const result = await movies.insertOne(newMovie);
+        return result
+    }
 }

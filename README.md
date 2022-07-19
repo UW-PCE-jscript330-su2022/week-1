@@ -35,9 +35,19 @@ This is also mostly case insensitve, so capitalization is not needed, but be awa
 
 ```
 POST /movies
+```
+Be sure to use the POST command when creating a new entry. Pretty easy. Everything else is automatically generated as long as it is specified in the command line.
+
+```
 PUT /items/:id
+```
+Be sure to use the PUT command when editing an existing entry. Pretty easy. Everything else is automatically generated as long as it is specified in the command line.
+
+```
 DELETE /items/:id
 ```
+Be sure to use the DELETE command when attempting to delete an existing entry and that that the given ID is correct. There will be no go backs and recovery.
+
 
 ## The assignment
 
