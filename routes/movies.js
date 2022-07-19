@@ -3,13 +3,21 @@ const router = Router();
 
 const movieData = require('../dataInterface/movies');
 
-// curl http://localhost:5000/movies
+// curl -sS http://localhost:5000/movies
 router.get("/", async (req, res, next) => {
-    let movieList = await movieData.getAll()
+    let movieList = await movieData.getAll() 
     res.status(200).send(movieList)
 });
 
-// curl http://localhost:5000/movies/7
+// curl -sS http://localhost:5000/movies/Titanic
+router.get("/:title", async (req, res, next) => {
+    let movieTitle = await movieData.getByTitle(req.params.title) 
+    res.status(200).send(movieTitle)
+
+
+});
+
+// curl -sS http://localhost:5000/movies/573a13d2f29313caabd935eb
 router.get("/:id", (req, res, next) => {
     const theMovie = movieData.getById(req.params.id)
     if (theMovie) {
@@ -19,19 +27,19 @@ router.get("/:id", (req, res, next) => {
     }
 });
 
-// curl -X POST -H "Content-Type: application/json" -d '{"field":"new item value"}' http://localhost:5000/movies
-router.post("/", (req, res, next) => {
-    movieData.create(req.body);
+// curl -sS -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5000/movies
+router.post("/", async (req, res, next) => {
+    let result = await movieData.create(req.body);
     res.sendStatus(200);
 });
 
-// curl -X PUT -H "Content-Type: application/json" -d '{"field":"updated value"}' http://localhost:5000/movies/7
+// curl -sS -X PUT -H "Content-Type: application/json" -d '{"field":"updated value"}' http://localhost:5000/movies/7
 router.put("/:id", async (req, res, next) => {
     let updatedList = await movieData.updateById(req.params.id, req.body)
     res.status(200).send(updatedList)
 });
 
-// curl -X DELETE http://localhost:5000/movies/7
+// curl -sS -X DELETE http://localhost:5000/movies/7
 router.delete("/:id", (req, res, next) => {
     const updatedList = movieData.deleteById(req.params.id)
     res.status(200).send({ updatedList: updatedList })
