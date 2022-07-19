@@ -109,7 +109,9 @@ curl -X DELETE http://localhost:5000/movies/573a1390f29313caabcd4135
 
 <details>
   <summary>Example response</summary>
+  <p>
   ```
   {"acknowledged":true,"deletedCount":1}
   ```
+  </p>
 </details>
