@@ -119,18 +119,26 @@ Example results:
 
 CREATE
 Example request: curl -sS -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5001/movies
-Parameters:
+Parameters: None
+Result:  New movie object is created with an Object ID and Title 
 Example results:
-
-
+    Success:  message 'Item created! ID: 62d74200cdd5050f3815e366' returned to the user
+    Failure:  message  'error: Object not created' returned to the user
 
 UPDATE
 Example request: 
-curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5001/movies/62d72a3f65117358ad62d268
-Parameters:
+curl -sS -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5001/movies/62d74200cdd5050f3815e366
+Parameters:  Object ID
+Result:  Plot value is updated for the specified Object ID
 Example results:
+    Success: message '62d74200cdd5050f3815e366 has been updated.'
+    Failure:  message 'ERROR - the object was not updated' returned to the user
 
+    
 DELETE
-Example request: curl -sS -X DELETE http://localhost:5001/movies/62d72a3f65117358ad62d268
-Parameters:
+Example request: curl -sS -X DELETE http://localhost:5001/movies/62d74200cdd5050f3815e366
+Parameters: Object ID
+Result:  Selected Object ID is deleted from the collection.
 Example results:
+    Success:  message '62d74200cdd5050f3815e366 was deleted.' returned to user
+    Failure:  message: "ERROR - the object was not deleted" returned to user

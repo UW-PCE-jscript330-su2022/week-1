@@ -42,7 +42,7 @@ router.post("/", async (req, res, next) => {
     if (result.newObjectId) {
         res.status(200).send(result.message)
     } else {
-        res.status(404).send(result.message)
+        res.status(404).send({ error: `Object not created` });
     }
     next()
 });
