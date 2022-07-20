@@ -29,7 +29,29 @@ module.exports.getByTitle = async (titleIn) =>
   }
   finally
   {
-    //client.close();
+  }
+
+}
+
+module.exports.getByTitleAndYear = async (titleIn, yearIn) =>
+{
+  try
+  {
+    if (!titleIn)
+    {
+      throw 'Title is required'
+    }
+    const database = client.db(databaseName);
+    const movies = database.collection(collName);
+
+    const query = {title: titleIn, year: { $eq : Number(yearIn)} };
+    const fields = {title: 1, year: 2};
+    let movieCursor = movies.find(query).limit(10).project(fields);
+
+    return movieCursor.toArray();
+  }
+  finally
+  {
   }
 
 }
@@ -52,7 +74,6 @@ module.exports.getByPartialTitle = async (titleIn) =>
   }
   finally
   {
-    //client.close();
   }
 }
 
@@ -73,7 +94,6 @@ module.exports.getAll = async () =>
   }
   finally
   {
-    //await client.close();
   }
 }
 
@@ -96,7 +116,6 @@ module.exports.getById = async (movieId) =>
   }
   finally
   {
-    //client.close();
   }
 }
 
@@ -115,7 +134,6 @@ module.exports.deleteById = async (movieId) =>
   }
   finally
   {
-    //client.close();
   }
 }
 
@@ -135,7 +153,6 @@ module.exports.updateById = async (movieId, newObj) =>
   }
   finally
   {
-    //client.close();
   }
 }
 
@@ -161,6 +178,5 @@ module.exports.create = async (newObj) =>
   }
   finally
   {
-    //client.close();
   }
 }

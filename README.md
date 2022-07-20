@@ -71,6 +71,23 @@ Movie API Documentation
 
 Overview: Simple CRUD methods for mongo sample movie database
 
+Get movies by title and year:
+Sample curl:
+curl http://localhost:5000/movies/title/<title url encoded>/year/<year>
+
+Endpoint:
+get http://localhost:5000/movies/title/<title url encoded>/year/<year>
+
+title = "Cops", year=1922
+Sample output:
+[
+{
+"_id": "573a1391f29313caabcd73f4",
+"title": "Cops",
+"year": 1922
+}
+]
+
 Get movies by title:
 Sample curl:
 curl http://localhost:5000/movies/title/<title url encoded>

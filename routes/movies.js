@@ -19,6 +19,22 @@ router.get("/title/:title", async (req, res, next) =>
   }
 });
 
+// curl http://localhost:5000/movies/title/<title url encoded>
+router.get("/title/:title/year/:year", async (req, res, next) =>
+{
+  try {
+    let movieList = await movieData.getByTitleAndYear(req.params.title, req.params.year)
+    if (movieList.length > 0) {
+      res.status(200).send(movieList);
+    } else {
+      res.status(404).send({error: `No movies with title of ${req.params.title} and year of ${req.params.year} found`})
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).send(e);
+  }
+});
+
 // curl http://localhost:5000/movies/ptitle/<partial title url encoded>
 router.get("/ptitle/:title", async (req, res, next) =>
 {
