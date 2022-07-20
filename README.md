@@ -1,3 +1,4 @@
+
 ### Getting started
 
 1. Make sure you have a recent version of [Node.js](https://nodejs.org/en/download/) installed on your computer. I am using Node v16.15, but anything above 14 will be fine.
@@ -26,6 +27,7 @@ PUT /movies/:id
 DELETE /movies/:id
 ```
 ```
+
 all * 
 ```
 
@@ -34,7 +36,9 @@ Curl documentation: https://curl.se/docs/manpage.html
 Jest documentation: https://jestjs.io/
 
 
+
 ### Connecting to MongoDB
+
 
 1. Create a New Cluster
 

@@ -25,6 +25,21 @@ module.exports.updateById = async (itemId, newObj) => {
     item.field = newObj.field
     return module.exports.items
   }
+=======
+    const itemIndex = module.exports.items.findIndex(item => item.id == itemId)
+    if (itemIndex != NaN){
+      module.exports.items.splice(itemIndex, 1)
+    }
+    return module.exports.items
+}
+
+module.exports.updateById = async (itemId, newObj) => {
+    const itemIndex = module.exports.items.findIndex(item => item.id == itemId)
+    const originalItem = module.exports.items[itemIndex]
+    if(originalItem){
+      module.exports.items[itemIndex] = {...originalItem, ...newObj}
+    }
+    return module.exports.items
 }
 
 module.exports.create = async (item) => {
