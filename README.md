@@ -34,62 +34,46 @@ Tests:       7 failed, 2 passed, 9 total
 
 This API has seven routes:
 
-| Request Type | Endpoint                 | Expected results                                                    |
-| ------------ | ------------------------ | ------------------------------------------------------------------- |
-| GET          | /movies                  | Retrieves all movies from database                                  |
-| GET          | /movies/:id              | Retrieves movie with \_id value matching :id                        |
-| GET          | /movies/title/:title     | Retrieves movies with title value matching :title                   |
-| GET          | /title/:title/year/:year | Retrieves movies with title matching :title and year matching :year |
-| POST         | /movies                  | Posts a new movie to the database                                   |
-| PUT          | /movies/:id              | Updates an existing movie in the database with \_id matching :id    |
-| DELETE       | /movies/:id              | Removes movie from database with \_id matching :id                  |
+| Request Type | Endpoint                 | Expected results                                                                                                          |
+| ------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| GET          | /movies                  | Retrieves all movies from database. Supports sorting of results through addition of sortKey and sortDirection to request. |
+| GET          | /movies/:id              | Retrieves movie with \_id value matching :id                                                                              |
+| GET          | /movies/title/:title     | Retrieves movies with title value matching :title                                                                         |
+| GET          | /title/:title/year/:year | Retrieves movies with title matching :title and year matching :year                                                       |
+| POST         | /movies                  | Posts a new movie to the database                                                                                         |
+| PUT          | /movies/:id              | Updates an existing movie in the database with \_id matching :id                                                          |
+| DELETE       | /movies/:id              | Removes movie from database with \_id matching :id                                                                        |
 
-GET /movies
+## Route Errors
 
-```
-curl http://localhost:5000/movies
+| Request Type | Endpoint                 | Errors                                                                                          |
+| ------------ | ------------------------ | ----------------------------------------------------------------------------------------------- |
+| GET          | /movies                  | 404: No movie data found in database                                                            |
+| GET          | /movies/:id              | 404: No movie found with \_id field matching supplied :id value                                 |
+| GET          | /movies/title/:title     | 404: No movies found with title field matching supplied :title value                            |
+| GET          | /title/:title/year/:year | 404: No movies found with title field and year fields matching supplied :title and :year values |
+| POST         | /movies                  | 404: New movie could not be added to database.                                                  |
+| PUT          | /movies/:id              | 404: No movie could be found with \_id field matching :id value provided.                       |
+| DELETE       | /movies/:id              | 404: No movie could be found with \_id field matching :id value provided.                       |
 
-[{"_id":"573a1390f29313caabcd42e8","plot":"A group of bandits stage a brazen train hold-up, only to find a determined posse hot on their heels.","genres":["Short","Western"],"runtime":11,"cast":["A.C. Abadie","Gilbert M. 'Broncho Billy' Anderson","George Barnes","Justus D. Barnes"],"poster":"https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYtYTYyNS00MDVmLWIwYjgtMmYwYWIxZDYyNzU2XkEyXkFqcGdeQXVyNzQzNzQxNzI@._V1_SY1000_SX677_AL_.jpg","title":"The Great Train Robbery","fullplot":"Among the earliest existing films in American cinema - notable as the first film that presented a narrative story to tell - it depicts a group of cowboy outlaws who hold up a train and rob the passengers. They are then pursued by a Sheriff's posse. Several scenes have color included - all hand tinted.","languages":["English"],"released":"1903-12-01T00:00:00.000Z","directors":["Edwin S. Porter"],"rated":"TV-G","awards":{"wins":1,"nominations":0,"text":"1 win."},"lastupdated":"2015-08-13 00:27:59.177000000","year":1903,"imdb":{"rating":7.4,"votes":9847,"id":439},"countries":["USA"],"type":"movie","tomatoes":{"viewer":{"rating":3.7,"numReviews":2559,"meter":75},"fresh":6,"critic":{"rating":7.6,"numReviews":6,"meter":100},"rotten":0,"lastUpdated":"2015-08-08T19:16:10.000Z"},"num_mflix_comments":0}
-]
+## Route Example curl Calls
 
-GET /movies/:id
-curl http://localhost:5000/movies/<movieId>
+| Request Type | Curl                                                                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| GET          | curl http://localhost:5000/movies                                                                                                    |
+| GET          | curl http://localhost:5000/movies/<movieId>                                                                                          |
+| GET          | curl http://localhost:5000/movies/title/<movieTitle>                                                                                 |
+| GET          | curl http://localhost:5000/movies/title/<movieTitle>/year/<movieYear>                                                                |
+| POST         | curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Aliens..."}' http://localhost:5000/movies |
+| PUT          | curl -X PUT -H "Content-Type: application/json" -d '{"plot":"Sharks..."}' http://localhost:5000/movies/<movieId>                     |
+| DELETE       | curl -X DELETE http://localhost:5000/movies/<movieId>                                                                                |
 
-{
-  "_id":"573a1390f29313caabcd42e8","plot":"A group of bandits stage a brazen train hold-up, only to find a determined posse hot on their heels.","genres":["Short","Western"],"runtime":11,"cast":["A.C. Abadie","Gilbert M. 'Broncho Billy' Anderson","George Barnes","Justus D. Barnes"],"poster":"https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYtYTYyNS00MDVmLWIwYjgtMmYwYWIxZDYyNzU2XkEyXkFqcGdeQXVyNzQzNzQxNzI@._V1_SY1000_SX677_AL_.jpg","title":"The Great Train Robbery","fullplot":"Among the earliest existing films in American cinema - notable as the first film that presented a narrative story to tell - it depicts a group of cowboy outlaws who hold up a train and rob the passengers. They are then pursued by a Sheriff's posse. Several scenes have color included - all hand tinted.","languages":["English"],"released":"1903-12-01T00:00:00.000Z","directors":["Edwin S. Porter"],"rated":"TV-G","awards":{"wins":1,"nominations":0,"text":"1 win."},"lastupdated":"2015-08-13 00:27:59.177000000","year":1903,"imdb":{"rating":7.4,"votes":9847,"id":439},"countries":["USA"],"type":"movie","tomatoes":{"viewer":{"rating":3.7,"numReviews":2559,"meter":75},"fresh":6,"critic":{"rating":7.6,"numReviews":6,"meter":100},"rotten":0,"lastUpdated":"2015-08-08T19:16:10.000Z"},"num_mflix_comments":0
-}
-
-GET /movies/title/:title
-curl http://localhost:5000/movies/title/<movieTitle>
-
-EXAMPLE REQUEST
-curl http://localhost:5000/movies/title/The%20Goonies
-{
-  "_id":"573a1398f29313caabce9848","plot":"In order to save their home from foreclosure, a group of misfits set out to find a pirate's ancient treasure.","genres":["Adventure","Comedy","Family"],"runtime":114,"metacritic":60,"rated":"PG","cast":["Sean Astin","Josh Brolin","Jeff Cohen","Corey Feldman"],"poster":"https://m.media-amazon.com/images/M/MV5BNGViMjJjNTUtY2IzNi00YzcyLWFjODUtMjc0NTI3YWNhNjgzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SY1000_SX677_AL_.jpg","title":"The Goonies","fullplot":"Mikey Walsh and Brandon Walsh are brothers whose family is preparing to move because developers want to build a golf course in the place of their neighborhood -- unless enough money is raised to stop the construction of the golf course, and that's quite doubtful. But when Mikey stumbles upon a treasure map of the famed \"One-Eyed\" Willy's hidden fortune, Mikey, Brandon, and their friends Lawrence \"Chunk\" Cohen, Clark \"Mouth\" Devereaux, Andrea \"Andy\" Carmichael, Stefanie \"Stef\" Steinbrenner, and Richard \"Data\" Wang, calling themselves The Goonies, set out on a quest to find the treasure in hopes of saving their neighborhood. The treasure is in a cavern, but the entrance to the cavern is under the house of evil thief Mama Fratelli and her sons Jake Fratelli, Francis Fratelli, and the severely disfigured Lotney \"Sloth\" Fratelli. Sloth befriends the Goonies and decides to help them.","languages":["English","Spanish","Cantonese","Italian"],"released":"1985-06-07T00:00:00.000Z","directors":["Richard Donner"],"writers":["Steven Spielberg (story)","Chris Columbus (screenplay)"],"awards":{"wins":2,"nominations":6,"text":"2 wins & 6 nominations."},"lastupdated":"2015-09-14 12:56:07.260000000","year":1985,"imdb":{"rating":7.8,"votes":163721,"id":89218},"countries":["USA"],"type":"movie","num_mflix_comments":0
-}
-
-GET /title/:title/year/:year
-curl http://localhost:5000/movies/title/<movieTitle>/year/<movieYear>
-
-EXAMPLE REQUEST
-curl http://localhost:5000/movies/title/The%20Goonies/year/1985
-
-{
-  "_id":"573a1398f29313caabce9848","plot":"In order to save their home from foreclosure, a group of misfits set out to find a pirate's ancient treasure.","genres":["Adventure","Comedy","Family"],"runtime":114,"metacritic":60,"rated":"PG","cast":["Sean Astin","Josh Brolin","Jeff Cohen","Corey Feldman"],"poster":"https://m.media-amazon.com/images/M/MV5BNGViMjJjNTUtY2IzNi00YzcyLWFjODUtMjc0NTI3YWNhNjgzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SY1000_SX677_AL_.jpg","title":"The Goonies","fullplot":"Mikey Walsh and Brandon Walsh are brothers whose family is preparing to move because developers want to build a golf course in the place of their neighborhood -- unless enough money is raised to stop the construction of the golf course, and that's quite doubtful. But when Mikey stumbles upon a treasure map of the famed \"One-Eyed\" Willy's hidden fortune, Mikey, Brandon, and their friends Lawrence \"Chunk\" Cohen, Clark \"Mouth\" Devereaux, Andrea \"Andy\" Carmichael, Stefanie \"Stef\" Steinbrenner, and Richard \"Data\" Wang, calling themselves The Goonies, set out on a quest to find the treasure in hopes of saving their neighborhood. The treasure is in a cavern, but the entrance to the cavern is under the house of evil thief Mama Fratelli and her sons Jake Fratelli, Francis Fratelli, and the severely disfigured Lotney \"Sloth\" Fratelli. Sloth befriends the Goonies and decides to help them.","languages":["English","Spanish","Cantonese","Italian"],"released":"1985-06-07T00:00:00.000Z","directors":["Richard Donner"],"writers":["Steven Spielberg (story)","Chris Columbus (screenplay)"],"awards":{"wins":2,"nominations":6,"text":"2 wins & 6 nominations."},"lastupdated":"2015-09-14 12:56:07.260000000","year":1985,"imdb":{"rating":7.8,"votes":163721,"id":89218},"countries":["USA"],"type":"movie","num_mflix_comments":0
-}
-
-POST /movies
-curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Aliens..."}' http://localhost:5000/movies
-
-PUT /movies/:id
-curl -X PUT -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "plot":"Llamas..."}' http://localhost:5000/<movieId>/movies
-
-DELETE /movies/:id
-curl -X DELETE http://localhost:5000/movies/<movieId>
-```
+# Helpful Documentation
 
 Express documentation: http://expressjs.com
+
 Curl documentation: https://curl.se/docs/manpage.html
+
 Jest documentation: https://jestjs.io/
 
 **_ Remember that changes to route handlers will not be reflected in responses until the server is restarted _**
