@@ -1,4 +1,4 @@
-# Week 1
+<!-- # Week 1
 
 This week is an introduction to Node.js, Express, and unit testing with Jest. The focus of this week will be on getting comfortable with the development environment, tools, and best practices in back-end development.
 
@@ -65,3 +65,32 @@ For 10 extra points, add a new test to items.test.js. It may be for an existing 
 
 - Create a pull request (PR) from your repository to the main branch of this repository with a title of your name.
 - Continuous Integration is handled using Github Actions. This will automatically run your tests and show the results on your PR. If you see a red X and a message saying `All checks have failed` then you will not receive full credit. Ensure all tests are passing in order to receive full marks.
+ -->
+
+### week2 Assignment
+List of possible routes 
+1. GET /movies
+2. PUT /movies
+3. DELETE /movies
+4.GET /movies/:id
+5.POST /movies
+6.PUT /movies/:id
+7.DELETE /movies/:id
+8.GET /movies/:title
+9.PUT /movies/:title
+10.DELETE /movies/:title
+
+### Example responses
+
+`curl http://localhost:3000/movies/892`
+`curl http://localhost:3000/892`
+`curl http://localhost:3000/movies/titanic`
+
+### Example request 
+request: `curl -X POST -H "Content-Type: application/json" -d '{"title":"Llamas From Space", "rated" : "TV-MA"}' http://localhost:3000/movies`
+response: `{"newObjectId":"1020", others json key value pair}`
+
+bad request: `curl -X POST -H "Content-Type: application/json" -d '{"plot":"Aliens..."}' http://localhost:5000/movies`
+response: `{"error":"No id found "}`
+
+if create fails for other reason: `{"error":"Something went wrong in creating new movie"}`
