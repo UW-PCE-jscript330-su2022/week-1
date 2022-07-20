@@ -22,7 +22,6 @@ module.exports.getAll = async (sortKey, sortDirection) => {
     const movieCursor = await movies
       .find(query)
       .limit(50)
-      .project({ [sortKey]: 1 })
       .sort({ [sortKey]: sortDirection });
     return movieCursor.toArray();
   } else {
@@ -37,6 +36,7 @@ module.exports.getByTitle = async (title) => {
 
   const query = { title: title };
   let movieDoc = await movies.findOne(query);
+
   return movieDoc;
 };
 
@@ -46,6 +46,7 @@ module.exports.getById = async (movieId) => {
 
   const query = { _id: ObjectId(movieId) };
   let movieDoc = await movies.findOne(query);
+
   return movieDoc;
 };
 
