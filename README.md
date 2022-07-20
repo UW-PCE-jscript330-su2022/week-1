@@ -37,13 +37,13 @@ Jest documentation: https://jestjs.io/
 ### Connecting to MongoDB
 
 1. Create a New Cluster
-  a. Free: Choose Shared, or pay for dedicated Server
-  b. Cloud Provider: AWS
-  c. Choose closest serving point
+a. Free: Choose Shared, or pay for dedicated Server
+b. Cloud Provider: AWS
+c. Choose closest serving point
 2. Connect to Cluster
-  a. Click > Connect
-  b. Connect you application
-  c. copy uri
+a. Click > Connect
+b. Connect you application
+c. copy uri
 3. In your dataInterface 
 
 ```
