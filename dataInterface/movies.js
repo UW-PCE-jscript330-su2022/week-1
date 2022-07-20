@@ -1,4 +1,3 @@
-const { json } = require("body-parser");
 const { MongoClient } = require("mongodb")
 const ObjectId = require('mongodb').ObjectId;
 const uri = "mongodb+srv://carlitos:test@cluster0.o87d0no.mongodb.net/?retryWrites=true&w=majority";
@@ -30,9 +29,9 @@ module.exports.getById = async (movieId) => {
 }
 
 // get by title
-// curl http://localhost:5000/movies/Titanic 
-// curl http://localhost:5000/movies/Back%20%To%20The%20Future -> not found
-// curl http://localhost:5000/movies/Back%20%to%20the%20Future -> Found
+// curl http://localhost:5000/movies/title/Titanic 
+// curl http://localhost:5000/movies/title/Back%20%To%20The%20Future -> not found
+// curl http://localhost:5000/movies/title/Back%20%to%20the%20Future -> Found
 
 module.exports.getByTitle = async(movieTitle) => {
   const database = client.db(databaseName);  

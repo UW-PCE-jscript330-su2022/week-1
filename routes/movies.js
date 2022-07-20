@@ -26,9 +26,9 @@ router.get("/title/:title(.{0,})", async(req, res, next) =>{
   }
 })
 
-router.get("/title=:title(.{0,})/year=:year(.{0,})", (req, res, next)=>{
-  console.log(req.params.title, req.params.year)
-})
+// router.get("/title=:title(.{0,})/year=:year(.{0,})", (req, res, next)=>{
+//   console.log(req.params.title, req.params.year)
+// })
 // "The Great Train Robbery" 1903
 
 router.get("/:id", async (req, res, next) => {
