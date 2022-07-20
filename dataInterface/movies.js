@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const { MongoClient } = require("mongodb");
 
-const uri = 'mongodb+srv://Hgupta9:kThYyac606OgE3xQ@cluster0.s2g6ids.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'ypur connection string';
 const client = new MongoClient(uri);
 module.exports = {};
 
