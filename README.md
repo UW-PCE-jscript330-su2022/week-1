@@ -120,12 +120,13 @@ The API supports limited title search functionality. The `/search/` path and ful
 **Example:**  
 **Input:**  
 `curl http://localhost:5000/movies/search/Titanic`  
-**Output:**  
-[
+**Output & interpretation:**  
+- [
   {"_id":"573a1394f29313caabcdf639",..."production":"20th Century Fox","fresh":8}},
   {"_id":"573a139af29313caabcefb1d",..."num_mflix_comments":0},
   {"_id":"573a139af29313caabcf0d74",..."directors":["James Cameron"],"runtime":194}
-]
+]  
+- "That title wasn't found." - Check the input movie title for errors.
 
 ### Updating an item
 
