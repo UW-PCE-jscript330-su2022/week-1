@@ -81,20 +81,22 @@ The server may be initialized via the `npm start` command, run from the director
 
 To create a new entry in the movies database, a POST command may be used in conjunction with the information, in key-value format, that will be part of the new entry. Separate fields using commas.
 
-Example:
-Input:
-`curl -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE", "year": 2022}' http://localhost:5000/movies`
-Possible Outputs:
-`OK`
+**Example:**  
+**Input:**  
+`curl -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE", "year": 2022}' http://localhost:5000/movies`  
+**Possible Outputs & interpretation:**  
+- "Item created! ID: <24-character ID here>" - Item created successfully.
+- "Error" - Item was not created successfully; check the syntax of the creation command.
+- "Internal server error, please try again later." - The server is experiencing an issue and a re-attempt should be made at a later time.
 
 ##### Reading an item
 
 The API supports GET requests, returning an array containing an object for each entry containing the title and year of the first ten entries of the collection.
 
-**Example:**
-**Input:**
-`curl http://localhost:5000/movies`
-**Output:**
+**Example:**  
+**Input:**  
+`curl http://localhost:5000/movies`  
+**Output:**  
 [
   {"_id":"573a13f8f29313caabde8d7a","title":"The Treasure","year":2015},
   {"_id":"573a13d6f29313caabda10e6","year":2015,"title":"Knight of Cups"},
@@ -105,20 +107,20 @@ The API supports GET requests, returning an array containing an object for each 
 
 An entry ID (`_id` parameter, see "Reading an item") may be used to return the full entry of a single item. IDs will typically be alphanumeric strings 24 characters in length. You may expect a return object containing the item's data.
 
-**Example:**
-**Input:**
-`curl http://localhost:5000/movies/573a13f2f29313caabddd3b6`
-**Successful Output:**
+**Example:**  
+**Input:**  
+`curl http://localhost:5000/movies/573a13f2f29313caabddd3b6`  
+**Successful Output:**  
 {"_id":"573a13f2f29313caabddd3b6",..."countries":["France"],"type":"movie"}
 
 The API supports limited title search functionality. The `/search/` path and full title of the movie must be appended to the base URL. This returns an array of objects with each item's data.
 **Unsuccessful Output & interpretation:**
 "That id doesn't exist" - check the input ID
 
-**Example:**
-**Input:**
-`curl http://localhost:5000/movies/search/Titanic`
-**Output:**
+**Example:**  
+**Input:**  
+`curl http://localhost:5000/movies/search/Titanic`  
+**Output:**  
 [
   {"_id":"573a1394f29313caabcdf639",..."production":"20th Century Fox","fresh":8}},
   {"_id":"573a139af29313caabcefb1d",..."num_mflix_comments":0},
@@ -129,10 +131,10 @@ The API supports limited title search functionality. The `/search/` path and ful
 
 The API supports updating items with new fields, allowing a single, or multiple, fields to be inserted.
 
-**Example:**
-**Input:**
-`curl -X PUT -H "Content-Type: application/json" -d '{"field3":"updated value 1", "NewField":"NewValue1"}' http://localhost:5000/movies/62d4c19202454278a89b13ec`
-**Possible Outputs & Interpretation:**
+**Example:**  
+**Input:**  
+`curl -X PUT -H "Content-Type: application/json" -d '{"field3":"updated value 1", "NewField":"NewValue1"}' http://localhost:5000/movies/62d4c19202454278a89b13ec`  
+**Possible Outputs & Interpretation:**  
 - "That id doesn't exist" - Check the input ID.
 - "# items updated - Update successful.
 
@@ -142,10 +144,10 @@ If updating an existing field is necessary, the existing field name(s) may be pa
 
 The API supports deleting entried via the `_id` parameter of the entry item. 
 
-**Example:**
-**Input: **
-`curl -X DELETE http://localhost:5000/movies/573a13f2f29313caabddd3b6`
-**Possible Outputs & Interpretation:**
+**Example:**  
+**Input:**  
+`curl -X DELETE http://localhost:5000/movies/573a13f2f29313caabddd3b6`  
+**Possible Outputs & Interpretation:**  
 - "Movie Id length incorrect." - Check the length of the input ID.
 - "Error occured while attempting to delete." - ID may not exist in the database.
 - "573a13f2f29313caabddd3b6 deleted." - Deletion successful.
