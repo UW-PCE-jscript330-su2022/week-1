@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   let answer = await movieData.getById(req.params.id);
   if (answer) {
-    res.send(answer);
+    res.status(200).send(answer);
   } else {
     res.status(404).send({ error: `That id doesn't exist.` });
   }
@@ -26,7 +26,7 @@ router.get("/search/:title", async (req, res, next) => {
   const movieByTitle = await movieData.getByTitle(req.params.title); //path param (/path/path)
   //req.query.title to access query parameters (?title=)
   if (movieByTitle) {
-    res.send(movieByTitle);
+    res.status(200).send(movieByTitle);
   } else {
     res.status(404).send({ error: "That title wasn't found." })
   }
@@ -35,26 +35,32 @@ router.get("/search/:title", async (req, res, next) => {
 // curl -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE"}' http://localhost:5000/movies
 router.post("/", async (req, res, next) => {
   let result = await movieData.create(req.body);
-  // TODO: if !result.
-  res.sendStatus(200).send(result);
+  if (!result) {
+    res.status(500).send({ error: "Internal server error, please try again later." })
+  } else {
+  res.status(200).send(result);
+  }
 });
 
 // curl -X PUT -H "Content-Type: application/json" -d '{"field":"updated value"}' http://localhost:5000/movies/7
-router.put("/:id", (req, res, next) => {
-  let bodyOfReq = req.body;
-  let answerTwo = movieData.updateById(req.params.id, bodyOfReq);
-  if (answerTwo) {
-    res.status(200).send(answerTwo);
+router.put("/:id", async (req, res, next) => {
+  let answerTwo = await movieData.updateById(req.params.id, req.body);
+  if (answerTwo == -1) {
+    res.status(404).send({ error: `That id doesn't exist.` })
   } else {
-    res.status(200).send({ error: `That id doesn't exist.` })
+    res.status(200).send(`${answerTwo} items updated.`);
   }
 });
 
 // curl -X DELETE http://localhost:5000/movies/7
-router.delete("/:id", (req, res, next) => {
-  let answerThree = movieData.deleteById(req.params.id);
-  if (answerThree) {
-    res.status(200).send(answerThree);
+router.delete("/:id", async (req, res, next) => {
+  let deletedCount = await movieData.deleteById(req.params.id);
+  if (deletedCount == -1) {
+    res.status(404).send( {error: "Movie Id length incorrect."} )
+  } else if (deletedCount == 0) {
+    res.status(400).send( {error: "Error occured while attempting to delete."} )
+  } else {
+    res.status(200).send(`${req.params.id} deleted.`);
   }
 });
 

@@ -65,3 +65,87 @@ For 10 extra points, add a new test to items.test.js. It may be for an existing 
 
 - Create a pull request (PR) from your repository to the main branch of this repository with a title of your name.
 - Continuous Integration is handled using Github Actions. This will automatically run your tests and show the results on your PR. If you see a red X and a message saying `All checks have failed` then you will not receive full credit. Ensure all tests are passing in order to receive full marks.
+
+
+# Week 2
+
+### API Documentation
+
+##### Basics
+
+This documentation is written to describe access methods for the API endpoint available at http://localhost:5000/movies, which is the base url for access to the API once the express server is running. 
+
+The server may be initialized via the `npm start` command, run from the directory containing the server files.
+
+##### Creating an item
+
+To create a new entry in the movies database, a POST command may be used in conjunction with the information, in key-value format, that will be part of the new entry. Separate fields using commas.
+
+Example:
+Input:
+`curl -X POST -H "Content-Type: application/json" -d '{"title":"NEW TITLE", "year": 2022}' http://localhost:5000/movies`
+Possible Outputs:
+`OK`
+
+##### Reading an item
+
+The API supports GET requests, returning an array containing an object for each entry containing the title and year of the first ten entries of the collection.
+
+**Example:**
+**Input:**
+`curl http://localhost:5000/movies`
+**Output:**
+[
+  {"_id":"573a13f8f29313caabde8d7a","title":"The Treasure","year":2015},
+  {"_id":"573a13d6f29313caabda10e6","year":2015,"title":"Knight of Cups"},
+  ...,
+  {"_id":"573a13f2f29313caabddd3b6","title":"Bang Gang (A Modern Love Story)",
+"year":2015}
+]
+
+An entry ID (`_id` parameter, see "Reading an item") may be used to return the full entry of a single item. IDs will typically be alphanumeric strings 24 characters in length. You may expect a return object containing the item's data.
+
+**Example:**
+**Input:**
+`curl http://localhost:5000/movies/573a13f2f29313caabddd3b6`
+**Successful Output:**
+{"_id":"573a13f2f29313caabddd3b6",..."countries":["France"],"type":"movie"}
+
+The API supports limited title search functionality. The `/search/` path and full title of the movie must be appended to the base URL. This returns an array of objects with each item's data.
+**Unsuccessful Output & interpretation:**
+"That id doesn't exist" - check the input ID
+
+**Example:**
+**Input:**
+`curl http://localhost:5000/movies/search/Titanic`
+**Output:**
+[
+  {"_id":"573a1394f29313caabcdf639",..."production":"20th Century Fox","fresh":8}},
+  {"_id":"573a139af29313caabcefb1d",..."num_mflix_comments":0},
+  {"_id":"573a139af29313caabcf0d74",..."directors":["James Cameron"],"runtime":194}
+]
+
+##### Updating an item
+
+The API supports updating items with new fields, allowing a single, or multiple, fields to be inserted.
+
+**Example:**
+**Input:**
+`curl -X PUT -H "Content-Type: application/json" -d '{"field3":"updated value 1", "NewField":"NewValue1"}' http://localhost:5000/movies/62d4c19202454278a89b13ec`
+**Possible Outputs & Interpretation:**
+- "That id doesn't exist" - Check the input ID.
+- "# items updated - Update successful.
+
+If updating an existing field is necessary, the existing field name(s) may be passed in with the new value, and the values will be updated.
+
+##### Deleting an item
+
+The API supports deleting entried via the `_id` parameter of the entry item. 
+
+**Example:**
+**Input: **
+`curl -X DELETE http://localhost:5000/movies/573a13f2f29313caabddd3b6`
+**Possible Outputs & Interpretation:**
+- "Movie Id length incorrect." - Check the length of the input ID.
+- "Error occured while attempting to delete." - ID may not exist in the database.
+- "573a13f2f29313caabddd3b6 deleted." - Deletion successful.

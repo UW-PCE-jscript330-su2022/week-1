@@ -23,35 +23,51 @@ module.exports.getAll = async () => {
 module.exports.getById = async (movieId) => {
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
-  
   // _id is from the returned object's information:
-  const query = {_id: ObjectId(movieId) };
-  let movie = await movies.findOne(query);
-  return movie;
+  if (movieId.length != 24) {
+    return false;
+  } else {
+    const query = { _id: ObjectId(movieId) };
+    let movie = await movies.findOne(query);
+    return movie;
+  }
 }
 
 module.exports.getByTitle = async (title) => {
-  // TO DO: Add this
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
 
   const query = { title: title };
   const movieCursor = await movies.find(query);
+  console.log(movieCursor.toArray());
   return movieCursor.toArray();
 }
 
-module.exports.deleteById = (movieId) => {
+module.exports.deleteById = async (movieId) => {
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
-
-  return []
+  if (movieId.length != 24) {
+    return -1;
+  } else {
+    const query = { "_id": ObjectId(movieId) }
+    let result = await movies.deleteOne(query);
+    // deleteOne() returns { "acknowldged": true/false, "deletedCount" ; # }
+    return result.deletedCount;
+  }
 }
 
-module.exports.updateById = (movieId, newObj) => {
+module.exports.updateById = async (movieId, newObj) => {
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
-
-  return []
+  if (movieId.length != 24) {
+    return -1;
+  } else {
+    const query = { _id: ObjectId(movieId) }
+    let jsonString = JSON.stringify(newObj);
+    let jsonObj = JSON.parse(jsonString);
+    let result = await movies.updateOne( query, {$set:jsonObj} );
+    return result.modifiedCount;
+  }
 }
 
 module.exports.create = async (newObj) => {
@@ -59,8 +75,7 @@ module.exports.create = async (newObj) => {
   const movies = database.collection('movies');
 
   const result = await movies.insertOne(newObj);
-  // console.log(result);
-  // "acknowledged: true" & "insertedId: new ObjectId("##...##")" are part of console.log return, so if we want user-friendly return:
+  // "acknowledged: true" & "insertedId: new ObjectId("##...##")" are part of 'result', so if we want user-friendly return:
   if (result.acknowledged) {
     return { newObjectId: result.insertedId, message: `Item created! ID: ${result.insertedId}` };
   } else {
