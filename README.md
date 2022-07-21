@@ -71,13 +71,13 @@ For 10 extra points, add a new test to items.test.js. It may be for an existing 
 
 ### API Documentation
 
-##### Basics
+### Basics
 
 This documentation is written to describe access methods for the API endpoint available at http://localhost:5000/movies, which is the base url for access to the API once the express server is running. 
 
 The server may be initialized via the `npm start` command, run from the directory containing the server files.
 
-##### Creating an item
+### Creating an item
 
 To create a new entry in the movies database, a POST command may be used in conjunction with the information, in key-value format, that will be part of the new entry. Separate fields using commas.
 
@@ -89,7 +89,7 @@ To create a new entry in the movies database, a POST command may be used in conj
 - "Error" - Item was not created successfully; check the syntax of the creation command.
 - "Internal server error, please try again later." - The server is experiencing an issue and a re-attempt should be made at a later time.
 
-##### Reading an item
+### Reading an item
 
 The API supports GET requests, returning an array containing an object for each entry containing the title and year of the first ten entries of the collection.
 
@@ -127,7 +127,7 @@ The API supports limited title search functionality. The `/search/` path and ful
   {"_id":"573a139af29313caabcf0d74",..."directors":["James Cameron"],"runtime":194}
 ]
 
-##### Updating an item
+### Updating an item
 
 The API supports updating items with new fields, allowing a single, or multiple, fields to be inserted.
 
@@ -140,7 +140,7 @@ The API supports updating items with new fields, allowing a single, or multiple,
 
 If updating an existing field is necessary, the existing field name(s) may be passed in with the new value, and the values will be updated.
 
-##### Deleting an item
+### Deleting an item
 
 The API supports deleting entried via the `_id` parameter of the entry item. 
 
