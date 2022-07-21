@@ -117,6 +117,8 @@ The API supports limited title search functionality. The `/search/` path and ful
 **Unsuccessful Output & interpretation:**  
 "That id doesn't exist" - check the input ID
 
+An movie title may be used to return the full entry of a single item. The title should be correctly spelled; "close enough" spellings will result in an error. You may expect a return object containing the item's data.
+
 **Example:**  
 **Input:**  
 `curl http://localhost:5000/movies/search/Titanic`  
