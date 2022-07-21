@@ -114,7 +114,7 @@ An entry ID (`_id` parameter, see "Reading an item") may be used to return the f
 {"_id":"573a13f2f29313caabddd3b6",..."countries":["France"],"type":"movie"}
 
 The API supports limited title search functionality. The `/search/` path and full title of the movie must be appended to the base URL. This returns an array of objects with each item's data.  
-**Unsuccessful Output & interpretation:**
+**Unsuccessful Output & interpretation:**  
 "That id doesn't exist" - check the input ID
 
 **Example:**  
