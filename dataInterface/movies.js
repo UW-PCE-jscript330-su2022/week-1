@@ -14,7 +14,6 @@ module.exports.getAll = async () => {
   // MongoDB connection guide provides following two lines:
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
-
   const query = {};
   let movieCursor = await movies.find(query).sort({ "released": -1 }).limit(10).project({ "title": 1, "year": 1 });
   return movieCursor.toArray();
@@ -39,8 +38,9 @@ module.exports.getByTitle = async (title) => {
 
   const query = { title: title };
   const movieCursor = await movies.find(query);
-  console.log(movieCursor.toArray());
-  return movieCursor.toArray();
+  let answer = await movieCursor.toArray();
+  console.log(answer);
+  return answer;
 }
 
 module.exports.deleteById = async (movieId) => {
@@ -73,7 +73,6 @@ module.exports.updateById = async (movieId, newObj) => {
 module.exports.create = async (newObj) => {
   const database = client.db('sample_mflix');
   const movies = database.collection('movies');
-
   const result = await movies.insertOne(newObj);
   // "acknowledged: true" & "insertedId: new ObjectId("##...##")" are part of 'result', so if we want user-friendly return:
   if (result.acknowledged) {

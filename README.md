@@ -142,7 +142,7 @@ If updating an existing field is necessary, the existing field name(s) may be pa
 
 ### Deleting an item
 
-The API supports deleting entried via the `_id` parameter of the entry item. 
+The API supports deleting entries via the `_id` parameter of the entry item. 
 
 **Example:**  
 **Input:**  

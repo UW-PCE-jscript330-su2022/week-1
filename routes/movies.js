@@ -25,10 +25,10 @@ router.get("/search/:title", async (req, res, next) => {
 // To Do
   const movieByTitle = await movieData.getByTitle(req.params.title); //path param (/path/path)
   //req.query.title to access query parameters (?title=)
-  if (movieByTitle) {
-    res.status(200).send(movieByTitle);
-  } else {
+  if (movieByTitle == []) {
     res.status(404).send({ error: "That title wasn't found." })
+  } else {
+    res.status(200).send(movieByTitle);
   }
 });
 
